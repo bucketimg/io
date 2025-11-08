@@ -1,0 +1,1723 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>鹏磊自媒体工具箱</title>
+    
+    <style>
+
+        /* 极简风格 */
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .search-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        textarea {
+            width: 100%;
+           
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            min-height: 80px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-right: 10px;
+            transition: background-color 0.3s ease;
+        }
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .btn-group button {
+            padding: 8px 15px;
+  
+            border: 1px solid #ddd;
+        }
+
+
+        .btn-group button.active {
+            background-color: #007BFF !important; /* 按钮选中状态颜色 */
+            color: white;
+            border: 1px solid #007BFF;
+        }
+
+        /* 按钮样式 */
+        .btn-search {
+            background-color: #ff0000 !important; /* 百度蓝色 */
+            color: white;
+        }
+        .btn-copy-all {
+            background-color: #FF8C00 !important; /* 橙色 */
+            color: white;
+        }
+        .btn-copy-current {
+            background-color: #FF8C00 !important; /* 橙色 */
+            color: white;
+        }
+        .btn-export {
+            background-color: #4CAF50 !important; /* 绿色 */
+            color: white;
+        }
+        button:hover {
+            opacity: 0.8;
+        }
+        /* 禁用按钮 */
+        .disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        .disabled:hover {
+            opacity: 1;
+        }
+        .result-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .result-item {
+            margin-bottom: 20px;
+        }
+        .result-item .details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+        .result-item .details p {
+            margin: 5px 0;
+            display: inline-block;
+        }
+        .book-title {
+            margin-top: 10px;
+            font-style: italic;
+        }
+        .actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            align-items: center;
+        }
+        .highlight {
+            background-color: yellow;
+        }
+        .pagination {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .page-link {
+            margin: 0 5px;
+            cursor: pointer;
+            padding: 5px 10px;
+            background-color: #f1f1f1;
+            border-radius: 4px;
+        }
+        .page-link.active {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .page-link:hover {
+            background-color: #ddd;
+        }
+        .page-link.disabled {
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+        .page-buttons {
+            display: inline-block;
+        }
+        /* 分割线样式 */
+        .divider {
+            border-top: 1px solid #ddd;
+            margin: 20px 0;
+        }
+
+
+
+
+        /* Modal样式 */
+        .modal {
+            display: none; /* 隐藏模态框 */
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        .modal-content {
+            background-color: #fff;
+            margin: 5% auto;
+            padding: 20px;
+            border-radius: 4px;
+            width: 80%;
+            max-width: 800px;
+            overflow-y: auto;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+
+
+       /* 内容样式 */
+        .content {
+            margin: 20px;
+            line-height: 1.6;
+        }
+
+        h2 {
+            color: #007BFF;
+            margin-top: 20px;
+        }
+        ul {
+            margin: 10px 0;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+
+
+  
+
+        .btn-helpBtn {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+
+
+
+
+    </style>
+
+
+
+     <style>
+   
+        .copy-btn {
+            padding: 10px 20px auto;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .copy-btn:hover {
+            background: #45a049;
+        }
+
+         /* 改进的Toast样式 - 完全居中 */
+        .toast {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 14px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
+            min-width: 200px;
+            text-align: center;
+        }
+
+        .toast.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* 随机颜色类 - 将在JS中动态添加 */
+        .toast-color-1 { background: #4CAF50; } /* 绿色 */
+        .toast-color-2 { background: #2196F3; } /* 蓝色 */
+        .toast-color-3 { background: #FF9800; } /* 橙色 */
+        .toast-color-4 { background: #9C27B0; } /* 紫色 */
+        .toast-color-5 { background: #E91E63; } /* 粉色 */
+    </style>
+
+
+
+
+
+
+
+</head>
+<body>
+    <h1>鹏磊自媒体工具箱</h1>
+    
+    <div class="search-container">
+        <textarea id="searchInput" placeholder="输入搜索内容（支持多关键词，用逗号、空格或换行分隔）"></textarea>
+        
+        <!-- 搜索类型按钮 -->
+        <div class="btn-group">
+            <button id="codeSearchBtn" class="active" onclick="setSearchType('code')">按代码搜索</button>
+            <button id="bookSearchBtn" onclick="setSearchType('book')">按书名搜索</button>
+            <button class="btn-search" onclick="searchPassword()">确认搜索</button>
+        </div>
+        
+        <div class="divider"></div> <!-- 分割线 -->
+        
+        <!-- 复制与导出功能按钮 -->
+        <div class="btn-group">
+            <button class="btn-copy-all" onclick="copyAllPasswords()">复制所有密码</button>
+            <button class="btn-copy-current" onclick="copyCurrentPagePasswords()">复制当前页密码</button>
+            <button class="btn-export" onclick="exportSearchResults()">批量导出搜索结果</button>
+        </div>
+    </div>
+    
+    <div class="result-container" id="resultContainer">
+        <div class="no-result">请输入搜索内容查看结果</div>
+    </div>
+
+    <div class="divider"></div> <!-- 分割线 -->
+    
+   <div class="search-container" style="padding-top: 20px;">
+
+    <button class="btn-helpBtn"  id="helpBtn" >查看产品需求文档</button>
+
+
+
+        <button class="copy-btn" data-text="面试题，我放到群公告了，就不复制发你了">面试题文案</button>
+        <button class="copy-btn" data-text="1、现在有，Java工作流课程，Java高薪课程，Java架构师课程
+
+2、文章文案该说的已经说了，课程是怎么样的，你都看了吗？
+文章文案：https://mp.weixin.qq.com/s/NIacfxEolzvLNKabnwqP6g
+
+3、课程正版授权，一机一码，不支持盗版，二次售卖
+
+4、视频是加密格式的，需要【激活码】 + 指定播放器播放
+
+5、视频需要下载观看，不支持在线观看
+
+6、再补充一下，这个视频课程完全是由一个人讲的，不是东拼西凑的
+
+7、课程内容，不仅仅是，思维导图上写的那些，1次购买，永久观看，持续更新，无需2次付费，永久免费观看。">架构师文案</button>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+
+
+    <script>
+        const toast = document.getElementById('toast');
+        let toastTimer;
+        const colorClasses = ['toast-color-1', 'toast-color-2', 'toast-color-3', 'toast-color-4', 'toast-color-5'];
+
+        document.querySelectorAll('.copy-btn').forEach(btn => {
+            btn.addEventListener('click', async () => {
+                const text = btn.dataset.text;
+                
+                try {
+                    await navigator.clipboard.writeText(text);
+                    showToast('✅ 复制成功！');
+                } catch (err) {
+                    showToast('❌ 复制失败，请手动复制！');
+                }
+            });
+        });
+
+        function showToast(message) {
+            clearTimeout(toastTimer);
+            
+            // 移除所有颜色类
+            colorClasses.forEach(c => toast.classList.remove(c));
+            // 添加随机颜色类
+            const randomColorClass = colorClasses[Math.floor(Math.random() * colorClasses.length)];
+            toast.classList.add(randomColorClass);
+            
+            toast.textContent = message;
+            toast.classList.add('show');
+            
+            toastTimer = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
+        }
+    </script>
+
+
+
+
+
+
+
+    <!-- Modal -->
+    <div id="helpModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>产品需求文档</h2>
+            <div class="content">
+                <h3>1. 产品概述</h3>
+                <p>该工具用于帮助用户快速搜索并管理密码信息。支持按代码和书名搜索密码，并能够批量导出和复制密码信息。工具的目标是提供一个极简的界面，易于操作，并确保提供快速的搜索和数据导出功能。</p>
+
+                <h3>2. 功能列表</h3>
+                <ul>
+                    <li><strong>输入框：</strong> 用户可输入多个关键词进行搜索（支持逗号、空格或换行分隔关键词）。</li>
+                    <li><strong>搜索方式切换：</strong> 支持按代码和书名搜索密码。</li>
+                    <li><strong>确认搜索：</strong> 点击按钮后，系统展示与输入关键词匹配的结果。</li>
+                    <li><strong>结果展示：</strong> 展示包括代码、密码、书名的搜索结果。</li>
+                    <li><strong>分页功能：</strong> 每页最多显示5条数据，支持分页跳转。</li>
+                    <li><strong>复制密码功能：</strong> 用户可以复制当前页或所有搜索结果的密码。</li>
+                    <li><strong>批量导出功能：</strong> 将搜索结果导出为.txt文件。</li>
+                </ul>
+
+                <h3>3. 详细功能说明</h3>
+                <p>该工具提供了多种搜索和导出方式，确保用户能够灵活选择操作。</p>
+
+                <h3>4. 用户手册</h3>
+                <p>用户可以通过输入关键词进行搜索，点击“确认搜索”按钮后展示结果。支持按代码或书名搜索，并能够复制当前页密码或导出所有搜索结果。</p>
+
+                <h3>5. 使用建议</h3>
+                <p>在搜索时，确保输入的关键词尽可能精确，以获得最佳匹配结果。使用“复制当前页密码”时，只复制当前页的数据，适用于小范围操作；如果需要导出大量数据，建议使用“批量导出”功能。</p>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script>
+        const textData = `86D109|3CC3984BCA83CF22AEC|最新-高清电子版 - 21天学通c++_第7版
+D4AE9D|5C30DD47C7A7DBD3A22|最新-高清电子版 - C++ Primer Plus（第6版）_中文版
+8A79B2|AD0944490C8918F670F|最新-高清电子版 - C++ Primer第5版
+27E601|5E503E44FC8333C13A3|最新-高清电子版 - COBOL语言（上）谭浩强
+4A431C|0E266C49AEB4E513490|最新-高清电子版 - COBOL语言（下）谭浩强
+8857C8|6025854D3C95D6BA852|最新-高清电子版 - c与指针
+0257EF|AAC74B47C4940D49FCD|最新-高清电子版 - C专家编程
+DFD5E7|D2A3544D05880B88366|最新-高清电子版 - C和指针
+DFC78C|2752B94995955CF1372|最新-高清电子版 - C基础班范例代码训练
+575510|99361E48B09414C301B|最新-高清电子版 - C大全语言
+B08C83|C0E0EF41F498AA620B7|最新-高清电子版 - C大纲
+A64345|6656C3472DABA9D3F22|最新-高清电子版 - C程序设计语言（第二版）
+78B699|B026754399B6C31FC1D|最新-高清电子版 - C程序设计语言（第二版）中文译版
+55E45C|23C6094048B1B793A5A|最新-高清电子版 - C程序设计语言（第二版）习题解答
+E54816|EEEE7C4B6894E615FDA|最新-高清电子版 - C程序设计语言（第二版）新版
+A516C4|10CFE74009A9C14E1B7|最新-高清电子版 - C程序设计语言（英文第二版）
+5642CE|7EAAED47208CE5721D1|最新-高清电子版 - C语言函数大全
+2F5A69|990E224B749DFF1618A|最新-高清电子版 - C语言参考手册第五版
+C96F17|C5A2164D119841FA835|最新-高清电子版 - C语言大全第四版
+60FF67|1C1A17466AA4CA078D3|最新-高清电子版 - C语言实现病毒源码演示
+793EA9|8B922B4E4A87A0C30D6|最新-高清电子版 - C语言深度解剖
+D74138|286A944AC4BC15FE4EC|最新-高清电子版 - C语言程序设计现代方法（第二版）
+3A4422|8DD06D4801A5834545C|最新-高清电子版 - C语言编程精粹.PDF
+E6376E|28A48C43ECA9758ED9A|最新-高清电子版 - C语言解析教程
+624078|C491844F6690E7B02FC|最新-高清电子版 - Linux操作系统下C语言编程入门
+E3CBB2|24D94C4C2C9FB77D4A0|最新-高清电子版 - 华为C语言规范
+4535B5|8677A440EA82019737E|最新-高清电子版 - 可变目标C编译器设计与实现_14136026
+7B8150|CAEB52429A98FDCF0B2|最新-高清电子版 - 数据结构-教程c语言版
+8ACE75|D3FB504B9C8EF91D899|最新-高清电子版 - 数据结构、算法与应用C++语言描述原书和引2版
+4C45A3|3ABC4C48B9B8F4DFAA7|最新-高清电子版 - 数据结构（C_语言版）
+8FEE11|5C86E34EF496A121E07|最新-高清电子版 - 数据结构（C语言版）
+51624F|6E93424DB998DD59AB0|最新-高清电子版 - 算法：C语言实现第1-4部分基础知识、数据结构、排序及搜索
+888459|D52E75407AB5C6F1AE0|最新-高清电子版 - 网络环境下的C语言编程技巧及实例
+22FBBA|342CFC48A79C8FB9E37|最新-高清电子版 - 自制编程语言基于C语言
+42CBA7|7E0F8C49FD97A5EC71C|最新-高清电子版 - ASP.NET.2.0.XML.高级编程（第三版）
+FA4322|8F516342509AE293ECE|最新-高清电子版 - ASP.NET.2.0.入门经典（第四版）
+AB6AD2|E74B124A5EA42B1ED18|最新-高清电子版 - ASP.NET.2.0.数据库入门经典（第四版）
+C92356|5FA80D4611B0C74B790|最新-高清电子版 - ASP.NET.2.0.高级编程（第四版）
+8862A0|62167D49B4B4B357F92|最新-高清电子版 - ASP.NET.基础教程-C#案例版
+E40086|F7FB71442AA3388EA7F|最新-高清电子版 - ASP.NET技术内幕
+6F483C|DCF3CF4C77885642215|最新-高清电子版 - C#.4.0完全参考手册
+1BAE97|4F540C45A3AA38A2AB7|最新-高清电子版 - C#.COM..编程指南
+96A66D|2F240F42F6B2CEC2902|最新-高清电子版 - C#3.0完全自学宝典
+97B06A|58B0AA4FEE82B2AD6C2|最新-高清电子版 - C#与.NET4高级程序设计-第五版
+8E3DD8|DD2EBB414A932F59774|最新-高清电子版 - C#与.NET技术平台实战演练
+08154D|16A89E479EA1586374A|最新-高清电子版 - C#入门经典（第三版）
+ECA12F|5CA50749CDBA956CA1E|最新-高清电子版 - C#字符串和正则表达式参考手册
+2AD579|14462B455A8B77038CA|最新-高清电子版 - C#学习笔记
+52C987|41F00749248112C415F|最新-高清电子版 - C#应用程序开发全程演练-从灵感到实现
+216638|FB4FF849BEB4578E9E8|最新-高清电子版 - C#技术内幕
+B2821F|BF119C4D839053F12FE|最新-高清电子版 - C#程序员参考手册
+C27521|163680487D82B0FAB6C|最新-高清电子版 - C#程序开发范例宝典（第三版）
+4F69CD|1C0BD94704B41ADD81B|最新-高清电子版 - C#编程参考手册
+155EEE|683AD140648EF67F91B|最新-高清电子版 - C#编程宝典十年典藏版
+F2A21B|DE723A43959EF62ABA2|最新-高清电子版 - C#编程思想
+17FB12|39DBE64F0F95EE0E5EB|最新-高清电子版 - C#编程语言详解
+962C77|4E3BBB4E21A60B7B7BD|最新-高清电子版 - C#网络编程技术教程
+7C8614|DDBB4D4EFBACF9EBD13|最新-高清电子版 - C#设计模式
+B19AB4|B5DA554DB585E33A5BF|最新-高清电子版 - C#软件项目开发全程剖析-全面透视SharpDevelop软件的开发内幕
+A677E2|9E9870425F8A9ED125B|最新-高清电子版 - C#项目开发案例全程实录（第二版）
+04C2F5|5413604451840D49395|最新-高清电子版 - C＃高级编程（第四版）
+F9E3F5|7BF43C404DAC433C7F0|最新-高清电子版 - Microsoft.C#.Windows.程序设计（上下册）
+AC90B2|191D2E4B96B16EB62E7|最新-高清电子版 - Programming.ASP.NET.中文版（第三版）
+6C7A39|A1A53041288520CB627|最新-高清电子版 - Programming.C#.中文版（第四版）
+5B38E6|08F98047FDA22D353BF|最新-高清电子版 - Visual.C#.NET.网络核心编程
+62DCA7|159EAE4D428BA6C0148|最新-高清电子版 - VisualC#.NET案例开发集锦
+5E3208|336ED9424D895B0434C|最新-高清电子版 - VisualC#.NET网络编程
+85BD5A|E174F9455E80D5AA12E|最新-高清电子版 - Windows应用高级编程-C#编程篇
+121087|C651C6480FBDF8912DB|最新-高清电子版 - 叩响C#之门
+712716|169F4D4F3CBDA57ADF4|最新-高清电子版 - 程序员突击Visual.C#.2008原理与系统开发
+5D38AD|B7365644C8935ED61E7|最新-高清电子版 - docker-从入门到实践
+A1FFB5|8A8DC74AE7827D9EC00|最新-高清电子版 - docker_practice
+FDA6BF|49458B4DFCA16C4D402|最新-高清电子版 - Docker入门白皮书
+D1B020|78EE0944D0A5A5EC0DE|最新-高清电子版 - Docker容器与容器云（第二版）
+D655E1|1C620F4E90894569B68|最新-高清电子版 - Docker经典实例
+9FF0BC|F632294DDFB454F6BD4|最新-高清电子版 - Go语言实战（异步图书）
+DC6294|0BD96C42BC81034D171|最新-高清电子版 - Kubernetes实战（套装共2册）
+EA9C6B|E89D744133B7BD52EC9|最新-高清电子版 - SpringCloud与Docker微服务架构实战
+F291DD|1EC8EA4398B6B068DD0|最新-高清电子版 - SpringCloud与Docker高并发微服务架构设计实施
+992D98|5975BB48589644EB4B6|最新-高清电子版 - 微服务架构下Docker实践，以及Docker在测试环境的应用
+8F6DB2|B9FBDC4E22956C24498|最新-高清电子版 - 微服务架构实战基于SpringBootSpringCloudDocker
+D7838C|0F26064DC69B9E44832|最新-高清电子版 - 深入浅出Docker
+1A8080|58302B4F44B573FDD3C|最新-高清电子版 - 第一本Docker书
+E448B7|D2D21546058AFB4F2CC|最新-高清电子版 - BetterELK,新浪实时日志分析服务进化
+9CA81C|8AF6EA473F8E9A8AE76|最新-高清电子版 - elasticsearch-guide-chinese
+51FB21|016EEC42FCA204CA8FD|最新-高清电子版 - elasticsearch-the-definitive-guide-cn
+1F0C8C|74C42F43258B5166816|最新-高清电子版 - Elasticsearch6.1官方入门教程
+9F7D0A|E50A8F4707A4BAFC887|最新-高清电子版 - ElasticSearch入门
+C3C33F|5CC9A5426A95C1A3737|最新-高清电子版 - Elasticsearch分布式大数据搜索
+8C18EE|99B77E45C89E195769B|最新-高清电子版 - ElasticSearch可扩展的开源弹性搜索解决方案
+0B890E|DA3323456A955F5800F|最新-高清电子版 - Elasticsearch大数据搜索引擎
+E7DDED|AE7C894ACD8C7793D75|最新-高清电子版 - Elasticsearch实战inaction中文版
+897156|654529460FB00DCAC52|最新-高清电子版 - Elasticsearch技术解析与实战
+7D28DB|C7EBC743F4A3F47808F|最新-高清电子版 - Elasticsearch技术解析与实践
+4CABFA|1B9D8148DD9BB77D508|最新-高清电子版 - Elasticsearch服务器开发（第二版）
+8231EF|3B6F5D40C1ACA6485C0|最新-高清电子版 - Elasticsearch权威指南（中文版）
+6983E3|5DF2854DFAB49273C86|最新-高清电子版 - Elasticsearch集成Hadoop最佳实践
+596D3E|61FCDB4062A78A40819|最新-高清电子版 - SpringBoot集成Elasticsearch7.4实战
+FCC7D4|18EFED48F393B08C452|最新-高清电子版 - 大数据搜索与日志挖掘及可视化方案++ELK+Stack++Elasticsearch+Logstash+Kibana++第二版
+3F135F|C4D35D466AB59131A97|最新-高清电子版 - 实战Elasticsearch、Logstash、Kibana++分布式大数据搜索与日志挖掘及可视化解决方案
+21C0B1|40C164496FBA2477C4E|最新-高清电子版 - 搜索引擎核心技术与实现（基于Lucene和Solr）
+268066|ADC0CA4BA3B269A3446|最新-高清电子版 - 数据分析与决策技术丛书ELKstack权威指南,饶琛琳编著,P394
+668D49|756C694C67AD270D10B|最新-高清电子版 - 最新版Elasticsearch调优搜索速度
+DD240A|9F7C844273B9394026D|最新-高清电子版 - 深入理解ElasticSearch
+9C0A76|95042A46BCBCB5753F8|最新-高清电子版 - GitBook（中文版）
+49FC8E|97C61F4403AED2F48F1|最新-高清电子版 - GitCheatSheet中文版
+B9F2DC|2A148146DEBA2932928|最新-高清电子版 - GitforTeams
+48570C|14C7454E3D8FFA38301|最新-高清电子版 - GitHub入门与实践_（日）_
+F8C3B4|46AF0644A395956EACF|最新-高清电子版 - Git中文手册
+AF1584|19B48E4D92A55F297E8|最新-高清电子版 - Git中文版
+3A2EB8|21EAAA4EAF8F377264D|最新-高清电子版 - GIT官方手册中文版
+26A49D|FE99694850972AAD426|最新-高清电子版 - Git教程
+D1ABB5|7A4F804AF5898B4959F|最新-高清电子版 - Git权威指南
+6DB762|0F8D45455CB044691F4|最新-高清电子版 - Git版本控制管理（第二版）
+D33C4E|1906224816B28A00FBD|最新-高清电子版 - Git版本控制管理（第二版）迷你书
+EB2C09|D5C8174AB19B3FCD46D|最新-高清电子版 - Git讲义-深度讲解
+9DF886|C323DB4E1294BF0934A|最新-高清电子版 - ProGit中文版本
+8C3660|FC599644A6A8DCFB167|最新-高清电子版 - ProGit中文第二版
+4D5948|B525AD4D85955450F33|最新-高清电子版 - 从+0+开始学习+GitHub+系列
+9678BE|7067FD486E9B8FBBD46|最新-高清电子版 - 完全学会GITGITHUBGITSERVER的24堂课
+5F823E|3CB35F4B9E8C33F495C|最新-高清电子版 - 常用Git命令清单
+F59620|BCBE144FB0842DF2278|最新-高清电子版 - 版本控制之道使用Git
+3F92A8|23BFBF411E8EA4C8AA5|最新-高清电子版 - Hadoop公平调度器指南
+7C7E48|BBC38C413196B9904A1|最新-高清电子版 - Hadoop大数据分析与挖掘实战
+F9679C|6BCD96498FAE8A30584|最新-高清电子版 - Hadoop开发者入门专刊
+3F871F|E35ECB461EABFEFC8F0|最新-高清电子版 - hadoop开发者第三期
+5C70E1|7A941940619F7B61537|最新-高清电子版 - Hadoop开发者第四期
+AC3862|EFD32549A4891841891|最新-高清电子版 - Hadoop技术内幕
+D8A533|B0EAE7431FA1EFBF3AF|最新-高清电子版 - Hadoop搭建与Eclipse开发环境设置
+CFB3A5|E1B4F9468B96CCD6DC2|最新-高清电子版 - Hadoop权威指南（中文第二版）
+977227|ACC57F4491B36A37D17|最新-高清电子版 - Hadoop权威指南（第四版）
+F0F7BA|3F0C9142D6A284440FE|最新-高清电子版 - hadoop简介
+D313F1|D5061740BF85986E7FC|最新-高清电子版 - Hadoop高级编程-构建与实现大数据解决方案
+8174BA|ECE3FC44B49134B60BC|最新-高清电子版 - 在Windows上安装Hadoop教程
+188939|9624CD42FC8CC470000|最新-高清电子版 - 基于Hadoop平台的亿贝用户邮件数据分析（苏立）
+1B0095|84D8234CDA820B55837|最新-高清电子版 - 实战Hadoop：开启通向云计算的捷径（刘鹏）
+AE5A95|3F416C410CAF9CDAD45|最新-高清电子版 - 数据算法HadoopSpark大数据处理技巧
+94425D|D4FC2A4B5D8F9B17BC4|最新-高清电子版 - 数据算法：Hadoop、Spark大数据处理技巧
+E35D89|4258CE48F7B52B3BED1|最新-高清电子版 - Head First Ajax（中文版）
+708532|FD8B664CA2BE7F58EA6|最新-高清电子版 - Head First C# 第二版-中文版
+D941D3|50FB064A7CA9CA9018E|最新-高清电子版 - Head First HTML5 Programming 中文版
+6F667B|B049B54007882328896|最新-高清电子版 - Head First HTML与CSS、XHTML
+4F44EA|ABE11B4820B8E6034F4|最新-高清电子版 - Head First Java 中文
+3AB5DD|608D4C45EFAD31DF6B4|最新-高清电子版 - Head First JavaScript 中文版
+A982ED|7CDA574BB0B7B8EE99D|最新-高清电子版 - Head First Java第二版涵盖java5.0
+6458B1|F64C9243738F38087C5|最新-高清电子版 - Head First Networking 中文版
+391508|776B6146E0991CB04D2|最新-高清电子版 - Head First PMP 中文版
+A2E75C|C8724E414DAE77ADF1B|最新-高清电子版 - Head First Python 重视大脑的学习指南  中文版
+2110EE|E8FEBF48E986D540AB1|最新-高清电子版 - Head First Servlet JSP
+1DE958|9173644FA19429693EC|最新-高清电子版 - Head First Servlets and JSP 第2版
+BF1816|3ADA0D4BFE91FB1E278|最新-高清电子版 - Head First 设计模式（中文版）
+7D5B09|E9A9A94AB2ADA7DA179|最新-高清电子版 - 21天学通Java
+73D3B9|5EA4EA42EF98662BE71|最新-高清电子版 - Effective+Java+中文第二版
+FB7630|11C8A54E1FAE39CE96C|最新-高清电子版 - EffectiveJava（中文版第三版）
+8DB592|F34D504F99A9001309A|最新-高清电子版 - Java8中的炫酷特性和Java9中的新特性-杨晓峰
+D6B4AC|742C1C403DB81897DB6|最新-高清电子版 - Java8函数式编程
+A24479|71DCCA47E2911A705A9|最新-高清电子版 - JavaNIO（中文版）
+006237|1B821B47298A5DB89F6|最新-高清电子版 - JavaOOP-发布版
+90DE10|DD7C80458390B914834|最新-高清电子版 - JavaRESTfulWebService实战
+D6E357|6B76B5475C9200BF88F|最新-高清电子版 - JavaServlet和jsp学习指南
+CCD917|5CD43F4E4C9904B84C8|最新-高清电子版 - JavaTCPIPSocket编程（原书第二版）
+1E8B1E|9C2D8342F1B0F2972FB|最新-高清电子版 - JavaWeb企业项目实战
+0E2031|748472425D9E6CCF50A|最新-高清电子版 - JavaWeb整合开发王者归来
+736F0D|30EB2C4103A3DAF4DBB|最新-高清电子版 - JavaWEB服务.构建与运行
+E5DC3D|7E52A342BA8C6BFE7C8|最新-高清电子版 - Java与模式（清晰书签版）
+4CC22C|BA082B4E46A84D11A00|最新-高清电子版 - Java从小白到大牛精简版
+C1BA79|310A57418A9347D7F9C|最新-高清电子版 - Java关键技术JSP与JDBC应用详解
+8FAA19|76060B43FE944F2EF8C|最新-高清电子版 - Java典型模块与项目实战大全
+2D935E|8DFB9E4AA69503D9C38|最新-高清电子版 - Java图形与网络游戏开发
+DA0571|E5CC134744A49B48615|最新-高清电子版 - Java图形与网络游戏开发]
+B976BC|C737814ACABE70AB166|最新-高清电子版 - Java基础教程
+BF1127|41FBE540729053B5925|最新-高清电子版 - Java基础概念
+2CD927|443A7D44EAAF28FEE65|最新-高清电子版 - Java开发之道
+9EF575|C6E11E4F8BB82E9A20F|最新-高清电子版 - Java数据库应用基础]
+3F392D|7586FA47F1A2750BC24|最新-高清电子版 - Java核心技术卷一基础知识第10版
+3C5698|0D0FE44DE9BA3DB90D2|最新-高清电子版 - Java特种兵上
+F12118|FF37C5457E94627FDDE|最新-高清电子版 - Java程序员修炼之道
+CB8F8A|DC660146EB97E90CF6B|最新-高清电子版 - Java编程思想第三版
+6E7A32|5E6A484430891F6EE9C|最新-高清电子版 - Java编程的逻辑
+159A45|B03C33495BA63351C33|最新-高清电子版 - Java编辑思想（第四版）
+FCDA56|CAAA734BCE842EC5101|最新-高清电子版 - Java网络应用开发
+DAEC31|ED0C7B42668AD635B8F|最新-高清电子版 - Java语言程序设计-进阶篇（原书第八版）
+445E8E|C65C4245D3BDB46C658|最新-高清电子版 - Web安全开发指南
+EF4966|A730E04CE6BDAC0BD48|最新-高清电子版 - Web应用安全权威指南
+6CEDBD|4C804342538633E694C|最新-高清电子版 - Web应用开发
+E74977|BC1A13466F95FB9729B|最新-高清电子版 - Web性能测试实战详解+Web开发典藏大系
+E13F0A|CF9E6C410A9D7A6FE07|最新-高清电子版 - 了不起的Nodejs将JavaScript进行到底
+BF6DB7|18D0CC47B19284C869F|最新-高清电子版 - 使用Java.Web服务构建SOA
+79AACA|DD272D4D16AEFA76273|最新-高清电子版 - 分布式Java应用基础与实践
+4A0719|32FF3B4A66A3DCAAF7B|最新-高清电子版 - 大型网站系统与JAVA中间件实践
+D3B74C|4EBCA8495092032692A|最新-高清电子版 - 大型网站系统与JAVA中间件实践（）
+A14F07|9A5BBA44CA81002B86F|最新-高清电子版 - 构建高性能WEB站点
+4FFF90|75C6F24ED89F7CA2CFD|最新-高清电子版 - 深入分析JavaWeb技术内幕
+646265|79ECE24551B1B13E69A|最新-高清电子版 - 疯狂Java讲义
+FFFDC8|16FD3B41C59F10AB0E2|最新-高清电子版 - 码出高效：Java开发手册
+561D1C|06AA564B78828CF595F|最新-高清电子版 - 编写高效优雅Java程序
+F177F4|2C71C84DCCBF990F079|最新-高清电子版 - 菜鸟成长之路—Java程序员职场全攻略
+D53565|8628E54DEFA17D83209|最新-高清电子版 - 解密搜索引擎技术实战Java精华版
+0CE79D|018AE74D2E9B6E8E37E|最新-高清电子版 - 零成本实现Web性能测试
+1CD088|BEA54B4D41ACB4B28EC|最新-高清电子版 - 高性能响应式Web开发实战
+61341D|8C33B34FF3AC406B9B7|最新-高清电子版 - JavaScript入门经典（第五版）
+81EF39|D0E3FA414196211E7E5|最新-高清电子版 - JavaScript基础教程（中文第八版）
+6A9BAA|7299844ADC99E7E0189|最新-高清电子版 - JavaScript权威指南（第五版）中文版（上）
+EA8C0F|D2C2AE409CAF8E56543|最新-高清电子版 - JavaScript权威指南（第五版）中文版（下）
+8AFEA3|1BD1214777AC5C6D795|最新-高清电子版 - JavaScript权威指南（第六版）
+7FCAF8|CCE98745309B968A0CE|最新-高清电子版 - JavaScript框架设计
+FD3F6C|7CFF4746758611D842F|最新-高清电子版 - JavaScript框架高级编程应用Prototype、YUI、ExtJS、Dojo、MooTools
+487B39|9C9A084A6FAC4E415ED|最新-高清电子版 - JavaScript面向对象精要
+8F3521|BFF55141FE97A75F1E4|最新-高清电子版 - glibc内存管理ptmalloc源代码分析
+492189|D65E3F4A82A11D3BE60|最新-高清电子版 - HotSpot实战
+BAE045|4911A547439037BA145|最新-高清电子版 - Java+JVM
+1792B1|E55D6A4B42921E4430B|最新-高清电子版 - Java性能优化权威指南
+809110|91017A4AA4A7B95BFB5|最新-高清电子版 - Java性能权威指南
+1B9AC9|2E1C0D4957894FF6CF6|最新-高清电子版 - Java虚拟机并发编程
+D330A1|5D1A374A1C82CD7BFB8|最新-高清电子版 - Java虚拟机规范-JavaSE7
+1FC7AE|E11D4D487180DF4D136|最新-高清电子版 - Java虚拟机规范-JavaSE8版
+746C09|F5EDD042E88B14B1AD5|最新-高清电子版 - Java虚拟机解释执行机制研究
+01F5FD|069E794682A1E8F0D94|最新-高清电子版 - JVM.Spec.v9
+659CDD|8BAC1D4EA0BA922C21B|最新-高清电子版 - JVM定制改进
+16DCCC|8745234127B1AB16718|最新-高清电子版 - Twitter的JVM性能调优经验
+9C9B20|7D62FD46069EA09EDC1|最新-高清电子版 - 垃圾回收的算法与实现
+9E32A2|5C5C7342F0B2B960692|最新-高清电子版 - 垃圾回收算法手册++自动内存管理的艺术
+805E51|668EAA45558FDD65047|最新-高清电子版 - 实战Java虚拟机
+49F818|BE6D0D43E48D84C48A9|最新-高清电子版 - 实战JAVA虚拟机JVM故障诊断与性能优化
+995D3D|5A8A804988B82CAD05C|最新-高清电子版 - 揭秘Java虚拟机-JVM设计原理与实现
+3028BC|7E1AC141178DC53DAAF|最新-高清电子版 - 深入Java内存模型
+6C1199|060DCE48B4A749C3479|最新-高清电子版 - 深入Java虚拟机
+8F3024|4EA38142A8ACA56C64D|最新-高清电子版 - 深入理解Java虚拟机：JVM高级特性与最佳实践
+3857F5|E5CC504A2083A2BE42F|最新-高清电子版 - 深入理解Java虚拟机：JVM高级特性与最佳实践（第三版）
+104D82|DAF90F4435AB3431CDE|最新-高清电子版 - 自己动手写Java虚拟机（Java核心技术系列）
+04F9BB|BA70524AEB9D6A4566C|最新-高清电子版 - 虚拟机系统与进程的通用平台
+BA39BE|2FC9F24A6EB1189973C|最新-高清电子版 - ApacheKafka实战
+83D70A|735B394AEC933F432D5|最新-高清电子版 - kafka-高性能揭秘及优化
+ABC2F5|E048384673886ED6AD2|最新-高清电子版 - Kafka并不难学！入门、进阶、商业实战
+23D0C4|6773C0492DB4A055E8F|最新-高清电子版 - Kafka技术内幕-图文详解Kafka源码设计与实现
+5A3B19|A456904F928BD0C3DBF|最新-高清电子版 - Kafka技术内幕
+236E0E|4990D7469AB141AF1BE|最新-高清电子版 - Kafka权威指南
+057D97|5AB8A8450DA042A2894|最新-高清电子版 - Kafka源码解析与实战
+672720|79252D4B5AABF57C9EE|最新-高清电子版 - 图文详解Kafka源码设计与实现
+1CA34C|E42189404FA2EE38E02|最新-高清电子版 - 深入理解Kafka核心设计与实践原理
+8F5380|3F63C04DB3AAC9240A2|最新-高清电子版 - Linux C编程一站式学习(最新版)
+07F0E8|D0A50C4863AA35160F1|最新-高清电子版 - LinuxC函数库参考手册
+7140E3|4574884AE4904A999CF|最新-高清电子版 - LinuxShell脚本攻略（中文版带书签）
+D23D70|043B7E4ED5AAB4F02D6|最新-高清电子版 - Linux企业运维实战
+043C87|F0C7364321AB5ECE450|最新-高清电子版 - Linux内核IO性能优化及块BIO处理
+3E9F27|2E15B749268D6E0246A|最新-高清电子版 - Linux内核设计与实现
+CD6543|278265450BAC8007BED|最新-高清电子版 - Linux初学者入门优秀教程
+7F868B|0E167A4C9F962C5DCAF|最新-高清电子版 - Linux命令详解词典].施威铭研究室.
+1A348D|039BFA41B0910C311F7|最新-高清电子版 - Linux宝典
+4D3EFF|F9607C486993EE00E89|最新-高清电子版 - Linux程序员指南
+17EA47|76ACE64245ADB993BD3|最新-高清电子版 - Linux系统常用命令快速入门
+5817A7|A377DA41BEA7DCCFD17|最新-高清电子版 - Linux防火墙（原书第三版）
+886913|D28C61414693896101F|最新-高清电子版 - Unix与Linux.Shell编程.PDF
+737E58|B0E42A4E73BE3DEF529|最新-高清电子版 - 循序渐进Linux第二版
+329EEF|114F37476E90CB948F2|最新-高清电子版 - 鸟哥的Linux私房菜-基础学习篇%28第四版
+E32250|99F97E4399B88ECEA73|最新-高清电子版 - 鸟哥的Linux私房菜-基础学习篇（第四版）
+86C0E4|AD814D4B3E952B4C97E|最新-高清电子版 - 鸟哥的Linux私房菜-基础篇-第四版
+6B8B54|49D1F2452787E7371FA|最新-高清电子版 - 鸟哥的Linux私房菜-基础篇第四版
+787740|2623FF41F59846327F7|最新-高清电子版 - 鸟哥的Linux私房菜
+F3F071|F0B6874C269B1412C7B|最新-高清电子版 - 鸟哥的LINUX私房菜_基础学习篇（第三版）
+F4794A|9B91D946CD9A4C4FC24|最新-高清电子版 - 鸟哥的Linux私房菜服务器架设篇（第三版）
+2A1FFF|A9A9D64F43A35D9A459|最新-高清电子版 - 鸟哥的Linux私房菜：服务器架设篇（第三版）
+ACDE61|9927EB43ABB64FE22F6|最新-高清电子版 - 鸟哥的Linux私房菜：服务器架设篇（第二版）
+2C704F|1FC60447AE8F4B53F50|最新-高清电子版 - 鸟哥私房菜（全）
+E39F9C|D9078345DE885446629|最新-高清电子版 - Maven实战（完整带书签）
+5FA574|24318A4E92B6B566E45|最新-高清电子版 - Maven应用实战
+687666|5AA169475395BFDF0F9|最新-高清电子版 - Maven权威指南_中文清晰
+87C074|D4E5164CAC850F6B83E|最新-高清电子版 - Maven权威指南中文版
+A09722|78A9F2438D91B5EA85E|最新-高清电子版 - 50TipsandTricksforMongoDBDevelopers
+50E7FA|149C694A47909591F8F|最新-高清电子版 - MongoDBTheDefinitiveGuide
+C359FA|4AD2CA4289841F72482|最新-高清电子版 - mongodb分片教程
+EB41E5|39E2CD4710AFAD0A064|最新-高清电子版 - MongoDB大数据处理权威指南-第三版
+A58328|821C824D22A392CFBB8|最新-高清电子版 - MongoDB实战
+C73D6A|E53F654D5999A15FA34|最新-高清电子版 - MongoDB权威指南第二版
+E8F773|8C72D44ECCB1C353F22|最新-高清电子版 - MongoDB游记之轻松入门到进阶
+CEB1EA|83F1FD42A2B3A6B7D7A|最新-高清电子版 - MongoDB运维实战
+32BF38|0E2F594689AE8C64EFC|最新-高清电子版 - ScalingMongoDB
+5BDCE5|5BC6DE435788BFEA095|最新-高清电子版 - TheDefinitiveGuidetoMongoDB
+288588|5C071048989F41F232B|最新-高清电子版 - 大数据存储MongoDB实战指南
+ED0ABF|518D634597A458F820F|最新-高清电子版 - 深入学习MongoDb
+4EDC8B|DE5FCA4ED1A46140906|最新-高清电子版 - JavaEE框架技术SpringMVC+Spring+MyBatis
+BEBDF7|9CC55C48B796C2FC439|最新-高清电子版 - MyBatis
+A31269|03B1DE486CB9A0EB764|最新-高清电子版 - MyBatis3中文用户指南
+270503|B760F4430981BB27194|最新-高清电子版 - MyBatis3用户指南中文版
+D1E339|8623204E5AA158DFAC0|最新-高清电子版 - MyBatis从入门到精通
+AD0EDE|D9DC094CD1B933A3DF2|最新-高清电子版 - MyBatis技术内幕
+8C1358|A0BFFC4CA39BCC23E06|最新-高清电子版 - Spring+MVC+MyBatis企业应用实战
+D0AAFE|9D5177407BA991B12B2|最新-高清电子版 - Spring+MyBatis企业应用实战
+0F188D|BB793B426B9CC91E7CF|最新-高清电子版 - 一本小小的MyBatis源码分析书
+2885D7|E027DD4D67ACE89FBD6|最新-高清电子版 - 深入浅出MyBatis技术原理与实战
+2C3928|111ED04346BB6FEAD02|最新-高清电子版 - mysql-reference-manual
+F5E24A|A7A90F4E1EBA1E246D4|最新-高清电子版 - MySQL5.5从零开始学
+9605BB|768E2D4423B27497EDB|最新-高清电子版 - MySQL5权威指南中文版（第三版）
+D736AA|5FD96D4D6AAEE1B89A6|最新-高清电子版 - MySQL从入门到精通
+42C144|94C1214EFEB433470E3|最新-高清电子版 - MySQL入门很简单
+C37F21|35E9554ECCB5E4A72CF|最新-高清电子版 - MySQL入门很简单－学习笔记
+F5B3FA|A6FA7941D4ADF53E414|最新-高清电子版 - MySQL开发者SQL权威指南
+9A1226|075CEB41008DA7B1B6B|最新-高清电子版 - Mysql性能优化教程
+43E563|699D64444B81D4604CB|最新-高清电子版 - MySQL性能调优与架构设计--全册
+997641|CB0F064033B4EBC0F89|最新-高清电子版 - MySQL性能调优与架构设计
+7932E8|BAAF9F4180B76A28644|最新-高清电子版 - MySQL技术内幕.第五版
+1D288B|2935DE4D249E25CFFD5|最新-高清电子版 - MySQL技术内幕：InnoDB存储引擎
+CCF457|F7A73D4C3DB813F9D8A|最新-高清电子版 - MySQL技术内幕：InnoDB存储引擎（第二版）
+8D2B97|73472F4320B7A30D8CF|最新-高清电子版 - MySQL技术内幕：SQL编程
+E9030F|1284A442E388B20408E|最新-高清电子版 - MySQL数据库开发的三十六条规定-石展
+09DADB|F597044A57A82A1F55D|最新-高清电子版 - MySQL最佳优化完美攻略
+70F609|C58EEB4B46AF2E611BE|最新-高清电子版 - MySQL权威指南第二版
+412770|7BCEC34F69B52DE97F6|最新-高清电子版 - MySQL管理之道，性能调优，高可用与监控（第二版）
+777071|9A8AF44D3FA28932185|最新-高清电子版 - MySQL运维内参：MySQL、Galera、Inception核心原理与最佳实践
+D67D2F|943A334156B66B350D1|最新-高清电子版 - MySQL高性能书籍_第三版
+94AAFE|F9CF0B4D70A940F6F18|最新-高清电子版 - 深入浅出MySQL++数据库开发、优化与管理维护（第二版）
+32D4D9|8DB43743C49D76BD8E5|最新-高清电子版 - 深入浅出MySQL
+7E7F02|7157FB4F018FF0516DD|最新-高清电子版 - 深入浅出MySQL数据库开发优化与管理维护
+B67D07|805E38476EB949BF082|最新-高清电子版 - 高可用MySQL_构建健壮的数据中心
+CF5878|4AE14C4A8184C094EA2|最新-高清电子版 - 高性能MySQL
+822CF7|A310B545E5B72735D59|最新-高清电子版 - 高性能MySQL第三版
+5616EE|0D120049BC83E88314C|最新-高清电子版 - 高性能MySQL（第三版）中文
+DDE4F6|625025465F9EE541842|最新-高清电子版 - 高性能MySQL（第二版）中文版
+E21752|D3AE864CF99ECC2860E|最新-高清电子版 - Netty5.0架构剖析和源码解读
+701BDC|4A31C64840AD75F37CF|最新-高清电子版 - NettyinAction第五版
+6845CB|F734BF45688BE989E6A|最新-高清电子版 - Netty实战（异步图书）
+D6BD1F|8E691E43D497EF67668|最新-高清电子版 - Netty实战（精髓）
+C21128|32F0FE44ED8A2ADDF2C|最新-高清电子版 - Netty权威指南
+5C49BA|3061FD4E70919326258|最新-高清电子版 - 开源电子书：Netty4开发手册
+2218E2|4709844DD2B27258B68|最新-高清电子版 - 开源电子书：Netty手册
+A5184C|B277FA4556B124417B3|最新-高清电子版 - Netty 入门与实战：仿写微信 IM 即时通讯系统
+F40D3F|9C247A401193C0159B9|最新-高清电子版 - Nginx开发从入门到精通
+AB547E|05E82A4CBC9E8BA8CA8|最新-高清电子版 - Nginx高性能Web服务器详解
+B86987|A0EA7E4FCFBFD8AB475|最新-高清电子版 - 决战Nginx技术卷：高性能Web服务器部署与运维
+85E515|0F87FE4DF2AD1C2E10A|最新-高清电子版 - 学习NginxHTTPServer中文版
+C6F186|7D808C4A3D8927D8CDD|最新-高清电子版 - 实战Nginx
+D61360|6461F845C19FD642939|最新-高清电子版 - 实战Nginx：取代Apache的高性能Web服务器
+2440A3|B7192D4609B52576AE0|最新-高清电子版 - 开源电子书：Nginx开发手册文档
+971835|18C3104333A86AF0C97|最新-高清电子版 - 深入剖析Nginx
+2AE239|ED6A944393831DC2201|最新-高清电子版 - 深入理解Nginx：模块开发与架构解析（第二版）
+F8909E|87767345F3AA5F37269|最新-高清电子版 - 精通Nginx第二版
+3E9305|ECD50043DC8A6278A27|最新-高清电子版 - Head_First_Python
+014070|E7B8464320BDAF41F23|最新-高清电子版 - Intermediate_Python中文
+707EA6|22E8F04AEDB827750FC|最新-高清电子版 - NumPy攻略-Python科学计算与数据分析
+5BDB4D|B12C824136BF870EA62|最新-高清电子版 - Python100经典练习题
+6801C5|1C985440599E885BE74|最新-高清电子版 - Python3.5从零开始学
+F2AF00|0A4693498CB6AD971DC|最新-高清电子版 - Python3程序开发指南
+CF9A48|D7B6ED465DA8C99CF5F|最新-高清电子版 - Python3网络爬虫数据采集
+9611C4|97D0CC428B9A0424B56|最新-高清电子版 - Python3萌新入门笔记及练习
+E89016|285AFB4E5CB98AE552C|最新-高清电子版 - Python3高级教程
+E76DE8|1C9D364F5295EB5EF69|最新-高清电子版 - PythonbyLiao
+218EC3|06681D48FAA2A0A2670|最新-高清电子版 - PythonCookbook（第三版）
+BD8474|EE3C274D78A1E82B2DD|最新-高清电子版 - PythonQtGUI快速编程PYQT编程指南
+FBE48C|C9FDFB4D71B3DB4472F|最新-高清电子版 - PythonWeb开发实战
+7A28C9|DDCEAA4229BEB66927C|最新-高清电子版 - PythonWeb开发：测试驱动方法
+3FE30F|35AE0541338F0EE77AE|最新-高清电子版 - Python入门经典-图灵图书
+977B7A|02108845FE94EB802CB|最新-高清电子版 - Python入门经典_以解决计算问题为导向的Python编程
+39C127|5E60104264BF3E1697A|最新-高清电子版 - Python参考手册（第四版）
+93BCB8|3B1AFC4630A2B28F890|最新-高清电子版 - Python地理空间分析指南（第二版）
+B19944|0812FE48CE97305308A|最新-高清电子版 - Python基础教程（第三版）
+35DD4B|912A484D8DBCBEA4581|最新-高清电子版 - Python学习手册（第三版）
+F3132A|47CCE54AF59D9124968|最新-高清电子版 - Python学习手册（第四版）
+F39BE1|A0FB7F4B3B9C08C8560|最新-高清电子版 - Python实战
+5D60DB|601D024789A7F9AC7D3|最新-高清电子版 - Python开发实战
+EC6903|07C0CF4338B80F27A92|最新-高清电子版 - Python开发技术详解
+E4EE66|61AEE44D3FB75583A6F|最新-高清电子版 - Python快速入门.（英文版）
+B345E6|70D95240DFBA0641315|最新-高清电子版 - Python技术参考大全
+80C9C6|45CE644D47BBE54DEFC|最新-高清电子版 - Python数据分析基础教程：NumPy学习指南（第二版）
+7EBEE2|34D1174CD29D8CA8A48|最新-高清电子版 - Python数据分析实战
+BD1E2C|8CBA624C6E85EB50681|最新-高清电子版 - Python数据可视化编程实战
+B65AE4|793BE44F5F9562C4D7C|最新-高清电子版 - Python数据处理
+530ACB|CA86974657B3DF9ABF5|最新-高清电子版 - Python数据科学手册
+7AD8CA|A51C9E44A8BB9A72620|最新-高清电子版 - Python文本处理指南
+EBADEF|E059BE49199BD170189|最新-高清电子版 - Python机器学习及实践－从零开始通往KAGGLE竞赛之路
+43653B|F8969346A5BCD9AEA30|最新-高清电子版 - Python机器学习基础教程
+7FB5CD|1EB7C84202A697EA251|最新-高清电子版 - Python机器学习预测分析核心算法
+9CE03C|C501F641839D3FA1F5E|最新-高清电子版 - Python标准库
+7DE0E1|AF129C49C9924770126|最新-高清电子版 - Python核心编程中文
+61EFB3|F340284F1EBFD948632|最新-高清电子版 - Python核心编程第三版中文版
+83A44A|0C5ADA45239199A50B9|最新-高清电子版 - Python源码剖析-深度探索动态语言核心技术
+F96CFF|E28DEC433AA6B4F591E|最新-高清电子版 - Python灰帽子-黑客与逆向工程师的Python编程之道
+D73FEF|646EB9490DA9E31F216|最新-高清电子版 - Python爬虫开发与项目实战
+7D6CA5|29B10D406297FE142FA|最新-高清电子版 - Python科学计算
+443CDE|F2222749189070DA3DF|最新-高清电子版 - Python科学计算张若愚
+F5346D|193F9B49748B3514436|最新-高清电子版 - Python程序员指南
+1268C6|AFF0FB4D6985BDBF9E7|最新-高清电子版 - Python简明教程中文
+6BB697|5ECBBA42839EE0B8C69|最新-高清电子版 - Python编程入门经典
+32955B|AC52E54BA5A3E7EAF86|最新-高清电子版 - Python编程初学者指南
+B58DD1|151DD7433480FAEB4D9|最新-高清电子版 - Python编程实战
+7B84AD|C0102F435491019EFAF|最新-高清电子版 - Python编程导论第二版
+0A8468|4457024C9A87BFBA697|最新-高清电子版 - Python编程快速上手-让繁琐工作自动化
+255D87|754EBB4448942B2E506|最新-高清电子版 - Python编程：从入门到实践
+D4D4A0|353FF849F79E3D6C610|最新-高清电子版 - Python网络数据采集
+FEF339|45598F4D4EB2BD98C5A|最新-高清电子版 - Python网络编程基础
+69853A|2669E247D78D6EA80E6|最新-高清电子版 - Python语言入门
+BD3738|7CE4764885A3C1BEA46|最新-高清电子版 - Python语言及其应用
+F5F308|71D99F4950A8DD27888|最新-高清电子版 - Python进阶
+A7A91B|7ACBF44E22A3FF541A0|最新-高清电子版 - Python金融大数据分析
+C8204B|BB8C554F44B567A0E80|最新-高清电子版 - Python金融实战###
+1D5801|3C91A04C81A9362AAB5|最新-高清电子版 - Python面向对象编程指南
+4FC1E0|163BD1479EA404AB7E8|最新-高清电子版 - Python高性能编程
+B1CB9D|8352B24CB5B28368F01|最新-高清电子版 - Python高级编程（清华）
+3BB534|CA975749E09AD98DB13|最新-高清电子版 - Python高级编程（第二版）
+8CB776|3400584569AF0E763E9|最新-高清电子版 - Selenium2自动化测试实战基于Python语言
+B84BCF|D5D6D845FA8EAEFBAF6|最新-高清电子版 - 从Excel到Python数据分析进阶指南
+1CFF23|3491284CE6A5B722A73|最新-高清电子版 - 从Python开始学编程
+F35CDD|DB4DA840F0881C2BDB9|最新-高清电子版 - 利用Python进行数据分析
+C9630F|7984104469ACC81D271|最新-高清电子版 - 可爱的Python脚本语言入门精品文章
+91C62E|33C9B74908B9A3F531A|最新-高清电子版 - 基于Python实现的微信好友数据分析
+8FDD47|552A414415B36533EA8|最新-高清电子版 - 常用数据挖掘算法总结及Python实现
+76C550|B8AF524A13B9A90DFED|最新-高清电子版 - 征服Python语言基础与典型应用
+4EA0AB|BADAA64A8DA59C256FA|最新-高清电子版 - 数据结构与算法-Python语言描述
+5E7317|639F5E4B048AADEF95A|最新-高清电子版 - 流畅的Python
+D8CD9B|448CA7411AA51004A23|最新-高清电子版 - 深入Python3中文版
+4485D2|D49AF44997AB4E818FC|最新-高清电子版 - 深度学习入门：基于Python的理论与实现
+A63F73|F807454BA49D4B9554C|最新-高清电子版 - 用Python写网络爬虫
+56D7C0|A80EA24737B5CBAF762|最新-高清电子版 - 用Python进行自然语言处理（中文翻译NLTK）
+8B24FE|56F8064C4E8502710B0|最新-高清电子版 - 笨办法学Python（第四版）
+6AC21E|7A2F474620964EDACE7|最新-高清电子版 - 简明Python教程
+4A282C|BF5B9F4BD6BA9821454|最新-高清电子版 - 精通Python爬虫框架Scrapy
+3FEB37|5DE6D446CA986F3B74C|最新-高清电子版 - 精通Python设计模式
+0D99CA|DE637743B4A401E0BD3|最新-高清电子版 - 编写高质量代码改善Python程序的91个建议
+788814|38CE514D9F8B624D7C2|最新-高清电子版 - 编程小白的第一本Python入门书
+B69B80|8E1BAB41A78AFB72CC6|最新-高清电子版 - 网络爬虫－Python和数据分析
+E7D8D6|43487040DC947958572|最新-高清电子版 - 贝叶斯思维统计建模的PYTHON学习法
+0BAA65|0E4BEA474A9BD9FFF27|最新-高清电子版 - 量化投资以Python为工具
+CD7148|B116DE4804AC955627C|最新-高清电子版 - LearningRabbitMQ
+20ECE7|CCAE554E24956D62C5F|最新-高清电子版 - Manning.RabbitMQ.in.Depth
+B0E0A4|35CD1C4613B2C13731C|最新-高清电子版 - RabbitMQinAction
+E66F7C|51E2A34BC0B15923F1C|最新-高清电子版 - RabbitMQ学习整理
+FCC023|699AC34E69BF2937042|最新-高清电子版 - RabbitMQ安装与使用
+2F120B|1D84CF43E1B761CA60C|最新-高清电子版 - RabbitMQ实战+高效部署分布式消息队列
+C3A71A|00E40E40CDBB53EE8B6|最新-高清电子版 - RabbitMQ实战指南
+C0EC92|0FBAE54A76BC3F72998|最新-高清电子版 - RabbitMQ研究v1.1
+5B1466|3E344245519DE17E7F7|最新-高清电子版 - RocketMQ实战与原理解析
+2EF251|C2A83A461AB2C6E0A16|最新-高清电子版 - 深入RabbitMQ
+2D7E05|CBE755412CA3D356CB9|最新-高清电子版 - Redis4.xCookbook中文版
+C33F49|D3AA654E3FA19EDF199|最新-高清电子版 - Redis入门手册（中文）
+E88349|CD8ED24C9DAE2DB7229|最新-高清电子版 - Redis入门指南+第二版
+EB756C|49A7B44649AABC3566F|最新-高清电子版 - Redis入门指南
+4CBCF5|CFB8E74FCA915C3D892|最新-高清电子版 - Redis入门指南第二版
+F9B998|25E0F74FCBA7246DF11|最新-高清电子版 - Redis命令参考
+70BDA7|6EFF43411AA11EC5D9B|最新-高清电子版 - redis命令参考手册
+29444A|6C1CC14AF6A83047A53|最新-高清电子版 - Redis学习笔记
+3F6971|769DEE423D8F3AD8EA5|最新-高清电子版 - Redis实战
+BCC4D2|0812B4417FB606E30B4|最新-高清电子版 - Redis实战JosiahL.Carlson
+97A48E|AFD6004B55BFAE7078A|最新-高清电子版 - Redis实战手册
+75959B|CECFC946CB8A5AF4510|最新-高清电子版 - Redis小白入门指南
+BCAF15|7BC1D847EA8802CE481|最新-高清电子版 - Redis开发手册文档
+9C566E|3AF5EB4E42825A299C6|最新-高清电子版 - Redis开发运维实践指南
+873C6A|E87A8B4D5CB609734D3|最新-高清电子版 - Redis开发运维指南
+E51746|49499F41799F1546CB0|最新-高清电子版 - Redis深度历险：核心原理和应用实践
+8FE0A3|29857648F3918623D5C|最新-高清电子版 - Redis设计与实现
+019BEB|C55C5A402EB619ED119|最新-高清电子版 - Redis设计与实现（第二版）
+878678|8FA609416689F4FEA8C|最新-高清电子版 - 左手MongoDB，右手Redis
+7EB71A|5B2E0F45B68965C9473|最新-高清电子版 - Scala伴生对象
+9C094A|EFE8364D3CA4F225F0F|最新-高清电子版 - Scala基础语法
+34590B|5A793C4610B3E38400C|最新-高清电子版 - Scala学习手册
+9483A6|84F3634E4BB4C47C4E7|最新-高清电子版 - Scala并发编程程
+91F8E2|8EF0BD4A289E56B2E6A|最新-高清电子版 - Scala程序设计
+DA4984|26DCFD49A9A3460CDB5|最新-高清电子版 - Scala编程
+6BEF44|FD74964C1FAF24548CF|最新-高清电子版 - Scala编程实战
+7BFB7E|C312C24B938E89B4DBD|最新-高清电子版 - Scala编程思想-原书第二版
+26F249|AAB78B4C2AA09234FF4|最新-高清电子版 - Scala语言规范
+849375|2449C74601B5EC2C7C4|最新-高清电子版 - Scala集合
+441363|EEED094E7B8194A01E2|最新-高清电子版 - 快学Scala
+92A0FC|B3C2BE4003B2DBF3D31|最新-高清电子版 - ApacheSolrEssentials
+AF0C17|7417A0411AB2538191E|最新-高清电子版 - ApacheSolr参考指南
+CA20E2|E717834A6788F8F3211|最新-高清电子版 - cookbooksolr4.x
+A9E99D|EB242645B28F85E7CF1|最新-高清电子版 - Java搜索服务Solr操作指南
+93D8C5|B636854A62B5908C44D|最新-高清电子版 - Solr+In+Action
+CF1206|B47BDD432D91E9E5684|最新-高清电子版 - SolrJ教程
+89A443|B32558443296384DD4B|最新-高清电子版 - Solr实战中文版
+8C8AE9|2D0C1743DBB7A06AFD8|最新-高清电子版 - Solr权威指南上卷
+91C017|7F407C48B49127C666A|最新-高清电子版 - Solr权威指南下卷
+1B87C7|A4B29E4DD9B49931893|最新-高清电子版 - Solr的应用教程
+F838DB|4F97E347BFB5C0D3740|最新-高清电子版 - 搜索引擎核心技术与实现（基于Lucene和Solr）
+83EF93|7F6C13410EB1C6E8384|最新-高清电子版 - 用Solr构建垂直搜索引擎
+136C00|64CDBE488C8530D2DAB|最新-高清电子版 - LearningSpark
+47D9D8|A2201F4116981BD8F9F|最新-高清电子版 - SparkContext
+AE86E6|BA027342EDBD0E07F05|最新-高清电子版 - SparkCookbook
+DB5882|EFDB4F4BB0A96E26107|最新-高清电子版 - Spark之SQL
+442DBA|E1C5E3443CA57D9C9B5|最新-高清电子版 - Spark内核
+DB7226|1F281441AB9883F2A6A|最新-高清电子版 - Spark初识
+8F63DB|06AF3E4289BF10754B3|最新-高清电子版 - Spark大数据分析实战（大数据技术丛书）
+FECEDB|99E15C4342901E9E724|最新-高清电子版 - Spark大数据处理：技术应用与性能优化（全）
+DC53D1|8BF7D84095A552ACEF8|最新-高清电子版 - Spark快速大数据分析
+84D13F|8A8C694AEF89C66160C|最新-高清电子版 - Spark快速数据处理
+30AAED|EA5A2B4F98B59208FCC|最新-高清电子版 - Spark总结
+30459E|F989084118B873D4A25|最新-高清电子版 - Spark机器学习-NickPentreath
+97D6F9|DD13C0484FB399683B8|最新-高清电子版 - Spark机器学习
+5F9251|170CE74CAD9C53B6119|最新-高清电子版 - spark编程指南
+FD9669|AB60B94182881FD0D6C|最新-高清电子版 - Spark高级数据分析
+0F67A9|C31FFE4E3C86C5B7FD3|最新-高清电子版 - 大数据Spark企业级实战版
+6C4DEA|AAE1C14D3D87640FAB6|最新-高清电子版 - 数据算法：Hadoop、Spark大数据处理技巧
+2807BB|FAD2434556B4DB9C469|最新-高清电子版 - 深入理解Spark：核心思想与源码分析
+43C140|54DFFE458F840DD5540|最新-高清电子版 - JavaEE框架技术SpringMVC+Spring+MyBatis
+FA5D48|21845A4C1695175A87A|最新-高清电子版 - JavaEE设计模式：Spring企业级开发最佳实践
+3FBE0C|BF5765434FB5938333D|最新-高清电子版 - Spring+MVC+MyBatis企业应用实战
+9E5186|C09A414955BB7C3B978|最新-高清电子版 - Spring+MyBatis企业应用实战
+220E56|ADA0F2424CA0B50EC0B|最新-高清电子版 - Spring+Security3
+309A05|A961014FE78C3667097|最新-高清电子版 - Spring.in.Action_4th.Edition-Spring实战（第四版）
+1F715D|A13BA04E1B958AD188F|最新-高清电子版 - Spring3.0就这么简单
+93F02F|66A7AE4D5B9B1C21C73|最新-高清电子版 - SpringBatch批处理框架
+EAD689|DD47DF46EF9F8950F3E|最新-高清电子版 - SpringDataJPA从入门到精通
+7F77CE|D3B05C42E0823048D83|最新-高清电子版 - SpringData实战
+C2A829|1846594057AA0CACE18|最新-高清电子版 - Springframeworkreference
+421934|6DC1C64D1099EC3C540|最新-高清电子版 - Springinaction中文版（第四版）
+80E0AC|D3AA1B4A30A4F81AFF8|最新-高清电子版 - SpringMvc教学
+6D1EEB|05C1244EFB9844A5C62|最新-高清电子版 - Spring中文开发手册
+C28955|EBD3364802899F9793E|最新-高清电子版 - Spring实战（第三版）
+7AF792|E6FD0C480E9BBC16FF4|最新-高清电子版 - Spring实战（第三版）.（Spring.in.Action.3rd.Edition）.Craig.Walls.文字版
+248F4F|6D02414C20B3FCD70AB|最新-高清电子版 - Spring实战（第四版）
+A48316|28FB404241B695F4293|最新-高清电子版 - Spring微服务
+8E14EE|3DF8E8447C9973F72AE|最新-高清电子版 - Spring微服务实战
+775FFA|F962914DC0938356848|最新-高清电子版 - Spring技术内幕：深入解析Spring架构与设计原理-第二版
+DC6195|13A8734219A416BB438|最新-高清电子版 - Spring揭秘
+3AC308|A3D63B4FE1B16E77E65|最新-高清电子版 - Spring揭秘（完整）
+FF5D12|99C7214F6D8AA3EC78A|最新-高清电子版 - Spring源码深度解析
+C83512|F3A7E5472D942747C06|最新-高清电子版 - Spring源码深度解析[郝佳编著]sample
+28A72C|9C33A54E37A0A81B4E7|最新-高清电子版 - 开源电子书：SpringMVC开发手册文档
+5DE3D3|D726954E6D82C31F43B|最新-高清电子版 - 看透SpringMVC源代码分析与实践
+2A6227|BA815D484887580759C|最新-高清电子版 - 精通Spring+4.x++企业应用开发实战
+C09904|50B8A24DB0AC06A1511|最新-高清电子版 - 精通Spring4.X企业应用开发实战
+0FC80D|9729C1402EA18847377|最新-高清电子版 - 精通SpringMVC4
+FB713E|BFD2B54EE4B946E3BFE|最新-高清电子版 - 精通Spring（清晰书签版）
+655DC4|E451694B628E9EE8345|最新-高清电子版 - JavaEE开发的颠覆者SpringBoot实战
+986A9D|32E5294A5B85233D5AD|最新-高清电子版 - SpringBoot2参考手册中文文档
+D4AA23|78C8584051B810BC15D|最新-高清电子版 - SpringBoot2精髓
+9F2E13|9BF81645A3BC29C6605|最新-高清电子版 - SpringBootCookbook
+17A0C5|E10C7C4D9DBE1061524|最新-高清电子版 - SpringBootreference-guide-zh
+EE7062|E6A0474C3094D9639D8|最新-高清电子版 - SpringBoot企业级应用开发实战
+79A3D0|5A5EDE42F3B896E5C2B|最新-高清电子版 - SpringBoot实战,丁雪丰（译者）
+FC47B2|136D82428D8B5669B76|最新-高清电子版 - SpringBoot实战
+13518D|9ADE7F433C8F9A46805|最新-高清电子版 - SpringBoot实战（第四版）
+EF3FBE|377EF04625B7D4733D5|最新-高清电子版 - SpringBoot揭秘快速构建微服务体系
+BFF1C0|0CE0874C84834E9FAA4|最新-高清电子版 - SpringBoot揭秘：快速构建微服务体系
+9D1FDB|F3B937491BB06B5FBFF|最新-高清电子版 - 一步一步学SpringBoot2微服务项目实战
+32A978|F31F614101B3DF671F2|最新-高清电子版 - 从零开始学SpringBoot
+5F775B|FD5E8E4DD6B5916864A|最新-高清电子版 - 开源电子书：SpringBoot开发手册文档
+E45A76|6F56A04F85A09545BA6|最新-高清电子版 - 微服务架构基础SpringBoot+SpringCloud+Docker
+468792|89A26E45F6A904C6D1D|最新-高清电子版 - 微服务架构实战基于SpringBootSpringCloudDocker
+D1C66D|41A61B4102B1F76C9D7|最新-高清电子版 - 深入实践SpringBoot
+341E17|92B61C454FAFDACD150|最新-高清电子版 - 深入浅出SpringBoot2.x
+9D4C6D|63276642C088809943A|最新-高清电子版 - SpringCloudDalston中文文档+参考手册+中文版
+315E41|295BCA4B6DA97619E3D|最新-高清电子版 - SpringCloudFinchley.RELEASE参考手册中文文档
+940C9F|DDA1E94A47A5220EF95|最新-高清电子版 - SpringCloud_Data_Flow
+77DA86|ACC6E6493580C39A374|最新-高清电子版 - SpringCloud与Docker微服务架构实战
+9028FA|EE9B144D24A07D77B18|最新-高清电子版 - SpringCloud与Docker高并发微服务架构设计实施
+EDF680|608DCC4B659F84C5A81|最新-高清电子版 - SpringCloud中文文档
+77DA1D|2AE1C74C2C86034E48C|最新-高清电子版 - SpringCloud微服务实战-翟永超-
+3C0FC0|41960E497BA80EE1F4C|最新-高清电子版 - SpringCloud微服务实战
+9BD073|1ED43545649AA19C737|最新-高清电子版 - SpringCloud微服务架构开发实战
+0BBC65|CA0685491CA035E5AF8|最新-高清电子版 - SpringCloud微服务架构进阶
+09E43E|2398EC424B80C63E9F2|最新-高清电子版 - 微服务架构实战基于SpringBootSpringCloudDocker
+882B77|16125C4F3F80A4F5E1D|最新-高清电子版 - 深入理解SpringCloud与微服务构建-第二版
+E49C70|F155814A9D82CF5D930|最新-高清电子版 - 深入理解SpringCloud与微服务构建
+661977|FA3A8947D5B87C52B58|最新-高清电子版 - 疯狂SpringCloud微服务架构实战
+63D4E4|242C2649508D9BFD309|最新-高清电子版 - 重新定义SpringCloud实战
+670EC8|996C16411D8C8EC8472|最新-高清电子版 - HTTP权威指南
+C9C8BF|7496A4412B8A95CB542|最新-高清电子版 - TCPIP网络编程技术基础
+6F6768|FB667C48969F4B91CF0|最新-高清电子版 - TCPIP详解卷1
+FF5C5E|CF48294551919B62E74|最新-高清电子版 - TCPIP详解卷2
+20D462|1989C7486AA5016CBDB|最新-高清电子版 - TCPIP详解卷3
+CCE212|C1FE384DD48E83C4292|最新-高清电子版 - 图解HTTP
+3453BD|8ABBF848F1A4643E354|最新-高清电子版 - 图解TCPIP（第五版）
+BC2BEE|31694C41B885C8B32C5|最新-高清电子版 - HowTomcatWorks中文版
+DD1921|CB1014486EB4B36A3EC|最新-高清电子版 - Java+Web开发与实战--Eclipse+Tomcat+Servlet+JSP整合应用
+ADF0A8|9A32AF4B1DB1A5E7622|最新-高清电子版 - Tomcat内核设计剖析
+736B3A|1EA053442E8E59BAFD2|最新-高清电子版 - Tomcat权威指南（第二版）
+801E00|5B23584936830E2E040|最新-高清电子版 - Tomcat架构解析
+57F68C|D2E7C34335A76B39F50|最新-高清电子版 - Tomcat源码研究
+51C623|2CEC434BE6A09BFDB66|最新-高清电子版 - 基于Tomcat5.0和_Axis2开发Web_Service应用实例
+07C32F|108D2B444DA54276577|最新-高清电子版 - 深入剖析Tomcat
+4609C2|53D5924002B1424E8A7|最新-高清电子版 - Netty_Redis_Zookeeper高并发实战
+28F8BC|AF97564FCE9C29CA89E|最新-高清电子版 - Zookeeper_3.3.5源码分析
+035517|AB19B84F4BAB2A5139D|最新-高清电子版 - ZooKeeper分布式过程协同技术详解
+62D5BF|38E492425092F4E5366|最新-高清电子版 - ZooKeeper原理与实战
+844573|A97E754621AAE53401B|最新-高清电子版 - 从Paxos到Zookeeper分布式一致性原理与实践（书签版）
+9FECE6|BAC1514A6988F97721D|最新-高清电子版 - 人工智能复杂问题求解的结构和策略原书第六版
+E279C1|26D125421180DDCFC2B|最新-高清电子版 - 人工智能智能系统指南（原书第三版）
+C0C96E|18276645CCB80FE7A99|最新-高清电子版 - 机器学习
+DE145D|5FB6184A1186E8F2DE7|最新-高清电子版 - 机器学习numpy和pandas基础
+9026E3|48DF594D7AB7EABA865|最新-高清电子版 - 机器学习实战
+C9CD46|12FA8D4D369C235D749|最新-高清电子版 - 深度学习-无水印-中文版
+6E9728|4A9C96434E985D28F9C|最新-高清电子版 - 白话深度学习与TensorFlow
+B82525|5D768440C49B74B3DBD|最新-高清电子版 - 神经网络与机器学习
+A2F934|F769AB45E1A019134E7|最新-高清电子版 - 神经网络原理.原书第二版
+4BF39C|D2B5D44D588941DD91F|最新-高清电子版 - 神经网络和深度学习
+549872|5608ED45A4A924DC5FC|最新-高清电子版 - Druid实时大数据分析原理与实践
+01F3B3|DA894D4DE59438108C4|最新-高清电子版 - 云计算和大数据时代网络技术揭秘
+6554FC|08493147C89D43BF57A|最新-高清电子版 - 云计算大数据10.9日课腾讯邮箱垃圾邮箱解密-机器学习之贝叶斯分类
+8EDA4A|C296F642DBAED5B4CE8|最新-高清电子版 - 傅强-当当在大数据挖掘分析与管理—个性化精准营销方面的探索
+7643BA|0B179E42D186D8F1C6B|最新-高清电子版 - 分布式文件系统HDFS，大数据存储实战
+C4FC44|06D94F4FBBBCFBCFD76|最新-高清电子版 - 大数据之路：阿里巴巴大数据实践
+0376F2|B15DD94350A44B41D11|最新-高清电子版 - 大数据处理hive深入详解
+C75508|17F6BF4BFA98218F37F|最新-高清电子版 - 大数据时代：生活、工作与思维的大变革》
+34315F|5069584D80B0C842846|最新-高清电子版 - 大数据：互联网大规模数据挖掘与分布式处理
+33CFFA|F2B8FE455D883D1039A|最新-高清电子版 - 大话数据结构
+536BCB|69081E459B9204C19A5|最新-高清电子版 - 用户网络行为画像大数据中的用户网络行为画像分析与内容推荐应用
+33A285|D9E2514312A9CE7A272|最新-高清电子版 - 白话大数据与机器学习
+ADA843|BE93664FFE907054178|最新-高清电子版 - 百度2015大数据云计算研发笔试卷
+B62088|044624480E9BD20FCFA|最新-高清电子版 - 自己动手做大数据系统.张魁（带书签文字版）
+0AFFF9|70D0A148BAB29E11C21|最新-高清电子版 - Java多线程编程核心技术-迷你书
+1F6294|CD389C4489B1BB8913B|最新-高清电子版 - Java多线程编程核心技术_
+FEA09C|E497284892A94702468|最新-高清电子版 - Java多线程编程深入详解
+052193|48979C4B11B25F553D8|最新-高清电子版 - Java并发编程学习笔记
+37AC16|7FE01F4F38AE81227CB|最新-高清电子版 - Java并发编程实战手册
+242FD4|E7DF674CBE9B2090BD3|最新-高清电子版 - Java并发编程实践（中文）
+EA8143|20143341ADABFA2A1BE|最新-高清电子版 - Java并发编程核心方法与框架,高洪岩著
+100579|E9884945E19C8799FC7|最新-高清电子版 - Java并发编程的艺术
+A61AB7|865413420A956655B22|最新-高清电子版 - Java性能优化权威指南
+35A55C|0B9EDB4BC5AA2A133A5|最新-高清电子版 - Java程序性能优化让你的Java程序更快、更稳定
+E615F7|F8AD22444C8A3182AA4|最新-高清电子版 - Java线程
+58A899|7B5C054A3580ABBA0C3|最新-高清电子版 - UNIX网络编程卷1(第3版_中文版)
+4766C8|D6C43D43858F660CAE9|最新-高清电子版 - UNIX网络编程卷1(第3版_英文版)
+901E40|1A1A9B43C7B5C5B4E62|最新-高清电子版 - UNIX网络编程卷2(第2版_中文版)
+0B640D|B6AB724084B31B54C61|最新-高清电子版 - UNIX网络编程卷2(第2版_英文版)
+9A31CA|8B6587453CB27FFD79B|最新-高清电子版 - 七周七并发模型
+F6612F|1961034C2B905B21859|最新-高清电子版 - 实战Java高并发程序设计
+795912|8B7DF647DC8B55B9723|最新-高清电子版 - 搜索引擎优化魔法书+SEO+Magic+Book
+51F58E|E19A464B9495F0F6E17|最新-高清电子版 - 深入浅出 Java 多线程
+9ADB8C|62FE9C4E9E99A90FEE2|最新-高清电子版 - 高并发环境下的数据产品架构设计
+7024AB|60A0A6468C95A241447|最新-高清电子版 - Java网站数据库设计
+D5BEF3|18E2734D65B6F142724|最新-高清电子版 - PostgreSQL从入门到精通
+8FEF83|1B1BE94CC9A7802F03A|最新-高清电子版 - PostgreSQL详解
+43EB13|775A034EB297C17BC1E|最新-高清电子版 - PowerDesigner16系统分析与建模实战
+993F8B|DE54DF4C4A8906E8601|最新-高清电子版 - PowerDesigner_15.1教程（完整）
+576E4D|3F19DE4380B8F665235|最新-高清电子版 - PowerDesigner教程
+30336F|2A229D47A6BEC6A3548|最新-高清电子版 - SQLCookbook中文版
+3736AB|3C1C0B4466B6CE53627|最新-高清电子版 - SQLite权威指南
+173380|E62AF0476894837AEE6|最新-高清电子版 - SQL查询的艺术
+6EF5C0|727A7549BCBBC027945|最新-高清电子版 - SQL注入攻击与防御原书第二版
+6F4A7C|ED54AA4B5DA82CA0F9C|最新-高清电子版 - SQL注入攻击与防御第二版
+8497FE|6D38774290956159287|最新-高清电子版 - SQL经典实例
+73669A|8E605E46F5A747AC098|最新-高清电子版 - SQL语句大全大全
+C8B363|B434C64E03ADBA04E7D|最新-高清电子版 - SQL语言艺术
+5A90CF|3D57DC4FA5B0AE28272|最新-高清电子版 - VisualC#数据库高级教程
+7C5270|C5439D4E5FB64FA48A1|最新-高清电子版 - 数据库
+ABAAF1|C7BB4A48789A7EAE0B6|最新-高清电子版 - 数据库与事务处理
+457168|0958184AE183B3BE811|最新-高清电子版 - 数据库查询优化器的艺术：原理解析与SQL性能优化
+BD7080|75DCFD4A21A1DB2C15E|最新-高清电子版 - 数据库管理基础教程
+0B9E81|7C87194982B849C0F78|最新-高清电子版 - 数据库管理系统第三版
+577DCB|A7B8C547F893C893FE7|最新-高清电子版 - 数据库系统全书
+94C992|82F1044598A3ECDB67F|最新-高清电子版 - 数据库系统基础教程-原书第三版
+7F4A5E|28ECC34689ADC992EDB|最新-高清电子版 - 数据库系统实现
+97AEB3|6694C8444295FBF2928|最新-高清电子版 - 数据库系统导论-原书第八版
+88BA20|86BC654F0190B9E33EB|最新-高清电子版 - 数据库系统概念-原书第六版
+DFB728|0232824FAEAA81CDB2E|最新-高清电子版 - 数据库系统设计实现与管理
+94A370|20B7DF483EA774B667E|最新-高清电子版 - 数据库设计教程第二版
+C4CB3F|32537B4768BBECB8DF8|最新-高清电子版 - 设计有效的数据库系统
+7C5F42|B775374EB89B6CD1E5D|最新-高清电子版 - 数据挖掘原理
+3CB68D|8502684EDDA41D2295E|最新-高清电子版 - 数据挖掘基础教程
+F8E92E|48D17A4825A3A422037|最新-高清电子版 - 数据挖掘实用机器学习工具与技术原书第三版
+7277A7|2EB3DD4A409A1B8781B|最新-高清电子版 - 数据挖掘概念与技术
+50A558|72BA134B929F24566CE|最新-高清电子版 - 数据挖掘：实用机器学习技术（原书第二版）
+CAB35A|3D625E4CC68B41E6208|最新-高清电子版 - 社交网站的数据挖掘与分析_中文版
+F8EA38|0D25744E93BE957ABC1|最新-高清电子版 - Dubbo面试题-发布版
+4E407F|90627A4C5CB1436D2D1|最新-高清电子版 - Elasticsearch面试题-发布版
+AB7548|BED9B646E98F50C2426|最新-高清电子版 - Java核心知识点面试题整理
+E54E07|3EFCCF49ABB68E00A81|最新-高清电子版 - Java程序员面试宝典
+32E286|83A07246179B6DE243A|最新-高清电子版 - Java程序员面试宝典（第二版）
+FBFBDB|29DBD544639505C5C0C|最新-高清电子版 - Java程序员面试笔试宝典-何昊
+381021|695A3B4EAD903708568|最新-高清电子版 - Java程序员面试笔试真题与解析
+05688A|4F7E96444E8821D7223|最新-高清电子版 - Java程序员面试笔试真题库
+20C55C|07DE134C9F8756E56C2|最新-高清电子版 - Java面试宝典
+F60E33|AB63E9450EADA944B72|最新-高清电子版 - JVM面试题-发布版
+056C2A|11795546CC8DCF0F40E|最新-高清电子版 - Kafka面试题-发布版
+B2D4CD|1BB3484131AB27CA081|最新-高清电子版 - Linux面试题-发布版
+CDFD17|19B6F54BF8A7BB8C424|最新-高清电子版 - Memcached面试题-发布版
+D8EC24|BB25204A9B849DBCCE8|最新-高清电子版 - MongoDB面试题-发布版
+6B8C43|3784A344CAAE92E3578|最新-高清电子版 - MyBatis面试题-发布版
+B46DDB|D8E2B546F99C674D937|最新-高清电子版 - Mysql面试题-发布版
+F53B94|F904A4422B96FDD04C0|最新-高清电子版 - RabbitMQ面试题-发布版
+29BBFC|961474487D9931F5F4F|最新-高清电子版 - Redis面试题-发布版
+6AE2A5|FA2FCB446FACBEDB0B0|最新-高清电子版 - SpringBoot面试题
+1C8EEC|1292CC476CAF8BD6DFF|最新-高清电子版 - SpringCloud面试题-发布版
+43B53D|E764ED43198B4226C8C|最新-高清电子版 - String面试题-发布版
+E10F65|5E9B23462B9B8086CBA|最新-高清电子版 - ZooKeeper面试题-发布版
+229180|5BD06E48D595437EBCB|最新-高清电子版 - 剑指offer第2版
+374506|5439B54E46884CA8E88|最新-高清电子版 - Microsoft.NET.框架程序设计
+01178A|2EA95D45D8B04FB1AE7|最新-高清电子版 - 一线架构师实践指南
+43D856|49474349F68B3E43AC7|最新-高清电子版 - 云计算架构技术与实践+第二版
+18CCC8|A5180F4766BC5E391E1|最新-高清电子版 - 人人都是架构师+分布式系统架构落地与瓶颈突破
+0D8BB7|16E039408AB9382348D|最新-高清电子版 - 亿级流量网站架构核心技术+跟开涛学搭建高可用高并发系统
+9B3DEA|AA612C488F9F08D7371|最新-高清电子版 - 亿级流量网站架构核心技术-跟开涛学搭建高可用高并发系统
+FDD6ED|59CF3D4727A4CC0C02F|最新-高清电子版 - 分布式系统原理 介绍
+A37DC8|935BE740CC94095FFB7|最新-高清电子版 - 大型分布式网站架构设计与实践
+851066|2DE9814CD7B22ECDD03|最新-高清电子版 - 大型分布式网站架构设计与实践.带目录书签.
+3F4995|E27BD642C9B767320EA|最新-高清电子版 - 大型电商分布式系统实践 - 第三课
+886720|240F164AE7AD1392CEB|最新-高清电子版 - 大型网站技术架构：核心原理与案例分析+李智慧
+D024FD|CD74F540D09D413A78A|最新-高清电子版 - 大型网站技术架构：核心原理与案例分析
+CEA459|8F55014D0BAC731BDB7|最新-高清电子版 - 大型网站服务器容量规划（异步图书）
+81F017|4CA9944ABDB3C17AC85|最新-高清电子版 - 大数据架构师指南
+C3FB1B|2B38824A0F9FE63F12E|最新-高清电子版 - 大数据架构详解：从数据获取到深度学习
+4B45DD|382C5346CC8A00CD9FA|最新-高清电子版 - 大规模分布式存储系统：原理解析与架构实战
+035D7E|93858446758F4B7AB61|最新-高清电子版 - 大规模分布式系统架构与设计实战.
+4D8E07|E2B2144D02B11308D59|最新-高清电子版 - 微服务分布式构架开发实战
+44C598|4740E3440491CCB0220|最新-高清电子版 - 微服务架构与实践（王磊著）
+2230DB|FFAE1544BC9C2A12433|最新-高清电子版 - 微服设计
+E6DFE3|872F894B82B6936D6E5|最新-高清电子版 - 推荐系统整体架构和mycat
+EFDCD5|4C73D34045ABD2DE8C1|最新-高清电子版 - 敏捷软件开发：原则、模式与实践
+7EE272|CD19A240D8A963DD2B6|最新-高清电子版 - 数字图像处理疑难解析
+6A70CF|9BF57D4A9EA35BB1B9A|最新-高清电子版 - 数字设计和计算机体系结构原书第二版
+E9B396|D96F8D4ED2A457F4A46|最新-高清电子版 - 数据密集型应用系统设计
+C2F189|60B2C045D1B5D8D0EA1|最新-高清电子版 - 数据通信、计算机网络与开放系统（原书第四版）
+F3A354|F1C8A7491394CB79197|最新-高清电子版 - 数据通信与网络-原书第四版
+EA63FE|426E674CA7A3D7B3DF2|最新-高清电子版 - 数据通信基础设施、联网和安全原书第七版T
+3C4568|D36BD44039BAD269021|最新-高清电子版 - 架构即未来现代企业可扩展的Web架构流程和组织原书第二版
+642481|2DA36C4596A5EAC0178|最新-高清电子版 - 架构探险从零开始写Javaweb框架
+13815E|B2C83042B1B4E059D39|最新-高清电子版 - 架构探险：从零开始写分布式服务框架
+8228B8|EA4F074110923F92E4F|最新-高清电子版 - 架构演进：一亿用户增长背后的架构秘密（全文PPT）
+21F569|40A2374AB19F94D0FE9|最新-高清电子版 - 架构演进：京东应用架构设计
+6CFD5F|4D257D4C4280C553F60|最新-高清电子版 - 架构演进：京东服务框架实践
+9349B4|80C5614940879AB84D2|最新-高清电子版 - 架构演进：人寿系统架构演变
+B980FD|CECE73457ABC41FD507|最新-高清电子版 - 架构演进：小米的经验分享
+8BE6D9|8CF9674FD9A78CDC8CD|最新-高清电子版 - 架构演进：微信之道－至简
+20133E|CEAF4646B0968A2A046|最新-高清电子版 - 架构演进：汽车之家架构分析
+F17534|24C88B45A18EC2E7801|最新-高清电子版 - 架构演进：滴滴打车架构演变及应用实践
+87BDA5|762EFD4210AC72C603A|最新-高清电子版 - 架构演进：知乎架构变迁史
+F39E4E|8F5DF8468DB440C4E2E|最新-高清电子版 - 架构演进：网易开源.pptx
+F7FBB5|3DA1BE4BCAA6437CBE5|最新-高清电子版 - 架构演进：豆瓣架构演进
+05BAB4|9466C846F59A3560E1E|最新-高清电子版 - 深入理解Nginx模块开发与架构解析第二版
+43F57A|4C380A4F9CB71074122|最新-高清电子版 - 现代操作系统第三版英文
+FECE04|AF7F3B43BC87384596D|最新-高清电子版 - 程序员必读之软件架构
+ADAD1F|E4C31146F196CDDF786|最新-高清电子版 - 系统分析与设计原书第七版
+9518AD|2EAE3346D79506AD8D0|最新-高清电子版 - 系统分析与设计导论
+8CF954|5CB8354D1DA26B3A972|最新-高清电子版 - 系统分析与设计敏捷迭代方法原书第六版
+C6F5BF|0DBC7F4ADE9F8F836A5|最新-高清电子版 - 系统分析与设计教程原书第七版
+A36C06|2CB2D4400380334CD11|最新-高清电子版 - 系统架构：复杂系统的产品设计与开发
+F88028|757F9B428AACFA9384F|最新-高清电子版 - 自动机理论、语言和计算导论
+0AA6D5|7964034E1897CA3609A|最新-高清电子版 - 计算机程序设计艺术（第一卷）
+24D344|1FAD844E928A50C935C|最新-高清电子版 - 计算机程序设计艺术（第三卷）
+82592D|8AA4B548298E7D82C2E|最新-高清电子版 - 计算机程序设计艺术（第二卷）
+806ED0|5F20CD4731BCC7A903B|最新-高清电子版 - 计算机系统概论（原书第二版）
+E59723|F7E408429983E915A61|最新-高清电子版 - 计算机系统结构原书第二版
+E7664D|3A9E624A32A04291D2B|最新-高清电子版 - 计算机网络与因特网原书第五版
+5BD1F9|1BA6F1432F852378C40|最新-高清电子版 - 软件可靠性方法
+1D1067|DB856C45B88ADD60E43|最新-高清电子版 - 软件安全从源头开始
+DEB7C2|46E56D4CA88EDE42838|最新-高清电子版 - 软件工程原书第9版
+5B5198|2336DB4F7E871A6735A|最新-高清电子版 - 软件工程架构驱动的软件开发
+007F23|7C916448FF99D1FB9D3|最新-高清电子版 - 软件工程面向对象和传统的方法
+FC77BD|3B01B24FBEAA0014486|最新-高清电子版 - 软件构架实践_第二版_林_巴斯等著
+93B490|4DFF5C4AAC848772BFE|最新-高清电子版 - 软件架构师的12项修炼
+14C79D|C2B4014A7BB418F366F|最新-高清电子版 - 轻量级微服务架构（上册）
+33FD90|7A63D84E92A4BC322B5|最新-高清电子版 - 轻量级微服务架构（下册）
+9AFF23|B6E3514D81826789E5F|最新-高清电子版 - 重构-改善既有代码的设计
+FEADBF|2320784FBBBB402E455|最新-高清电子版 - 阎宏-Java与模式
+97EEEF|B7891A4ACF858CFC7CE|最新-高清电子版 - 阿里双11系统管控调度架构与实践
+452BAA|6389CC4594A77CA3A9E|最新-高清电子版 - 面向对象与传统软件工程统一过程的理论与实践
+C63351|3CE4024AB6A16E5DE2C|最新-高清电子版 - 面向对象程序设计图形应用实例
+1FF896|E9E140445DA69EE7E6B|最新-高清电子版 - 面向对象软件工程
+751173|DCE527465AB4D55B5F6|最新-高清电子版 - C数值算法程序大全
+8C491F|CC82E5457FBC97D95CC|最新-高清电子版 - C数据结构和算法分析
+2D2839|7BD42546748924ACAB2|最新-高清电子版 - Java常用算法手册
+369DFE|0208144DD7B79C1F3C1|最新-高清电子版 - Java常用算法手册第三版本
+B983D8|CFC5EE4B549FF62D267|最新-高清电子版 - Java数据结构和算法.第二版
+41063A|8B30A34F65B6B96C07F|最新-高清电子版 - 和小浩学算法
+7F30D8|0528EC4B9E8FC7CE0AE|最新-高清电子版 - 啊哈！算法
+EDC230|30B49148FB8F0E4E9E2|最新-高清电子版 - 图解数据结构-使用Java
+42C2D5|CBB4C341C78FC29F076|最新-高清电子版 - 大数据算法
+C357CA|CD71784CD2B3F4550B1|最新-高清电子版 - 密码学基础教程秘密与承诺
+4F06A2|94C6064D5A9F155D14D|最新-高清电子版 - 密码学导引
+2F12F5|9EE27A479BB867F6AF0|最新-高清电子版 - 密码学算法协议c实现
+EB7ADC|41043F4B99940262382|最新-高清电子版 - 数据科学入门
+2DD08E|86708447629E758FAD6|最新-高清电子版 - 数据结构与STL
+FFBAB4|E64A444FD7B5A47029A|最新-高清电子版 - 数据结构与算法-JAVA语言
+CDE25C|74CEC24321840440D2E|最新-高清电子版 - 数据结构与算法
+222946|7F77164F45AB4B79291|最新-高清电子版 - 数据结构与算法Java版
+A24BFE|D36DC748D7819D6C56A|最新-高清电子版 - 数据结构与算法（JAVA语言版解密）
+C6325F|1565E54A8FA42F544A1|最新-高清电子版 - 数据结构实例分析
+EBB718|B29BF84A04A0D1C21A3|最新-高清电子版 - 数据结构讲义（严蔚敏版）
+71BAC4|FE0D224A7BA398FFFEC|最新-高清电子版 - 数据结构（C#语言版）
+341A46|A7549949A6A093247B6|最新-高清电子版 - 数据结构（Java版）
+F3E10E|50542249E5B69EC4944|最新-高清电子版 - 深入理解机器学习从原理到算法
+75DF82|CA7B9D40DFAEFDEB668|最新-高清电子版 - 漫画算法：小灰的算法之旅 - 魏梦舒
+D70815|50A1C24E88A84533488|最新-高清电子版 - 离散数学及其应用原书第七版
+BCB255|3A29E2426484AB18395|最新-高清电子版 - 离散数学导学
+ADAD6F|A736A640E1ABC8DE5E5|最新-高清电子版 - 算法与数据结构-实用算法基础教程
+4F99B6|B1320F426391D273A8B|最新-高清电子版 - 算法分析导论_11562998
+81336A|1D2DB740B88AD956D81|最新-高清电子版 - 算法图解
+083D60|C50229477CBD350BF04|最新-高清电子版 - 算法基础.打开算法之门
+401BBB|3B56A9406CAAC4C07D4|最新-高清电子版 - 算法导论第三版中文
+9B912A|B44A724C478E730CD0F|最新-高清电子版 - 算法导论（原书第三版）
+B2344E|F42EBE40619CB6CAFC6|最新-高清电子版 - 算法导论（原书第三版）中文
+182FE0|28068541A595C58D29E|最新-高清电子版 - 算法概论
+00E67C|53B62A4175A1CD1BE58|最新-高清电子版 - 算法第四版-谢路云译
+28E3A8|5418274C6BAFC53596F|最新-高清电子版 - 算法第四版-谢路云译Java描述
+45CF14|6319F14032B1C48329C|最新-高清电子版 - 算法设计与分析基础
+1ECF61|C550434E8E87DD2E303|最新-高清电子版 - 算法设计与分析导论_11888784
+B25B6A|7D5986478BB1FC3181C|最新-高清电子版 - 算法设计手册-第2版
+F89FF7|63B8284F50A87C85318|最新-高清电子版 - 经典算法大全
+C43BF9|7EA35C4F859AB37DDB1|最新-高清电子版 - 计算机算法分析与设计课件
+7A0DCE|99920C460C90F3D68D2|最新-高清电子版 - 高级数据结构
+F61F9A|ACCD2A46C691BB303CA|最新-高清电子版 - 实时系统与编程语言
+0E4A89|DBCAD748C89EBA89E59|最新-高清电子版 - 深入理解计算机系统（原书第三版3）
+C423E8|F44666472A963755882|最新-高清电子版 - 程序员的数学3+线性代数
+BE1DA2|7F28594084838B80DA1|最新-高清电子版 - 程序是怎样跑起来的
+843EC7|49ABDE487CB1365CC9C|最新-高清电子版 - 编码：隐匿在计算机软硬件背后的语言
+B83B4D|BD6E78484E83261829E|最新-高清电子版 - 网络科学原理与应用
+6A8AC2|51C1D945AAA95E38897|最新-高清电子版 - 计算机操作系统
+E0E764|84F088401AA14343A40|最新-高清电子版 - 计算机操作系统（第3版）
+E1B0C7|34F113404399FCC26FF|最新-高清电子版 - 计算机系统要素：从零开始构建现代计算机
+55341C|21D860449DA418C8225|最新-高清电子版 - 计算机组成与体系结构
+911D5D|B87F3F43F986EA83E95|最新-高清电子版 - 计算机组成与体系结构：性能设计第八版
+5B1341|AA56A142E080B80C4C4|最新-高清电子版 - 计算机组成与嵌入式系统原书第六版
+0A83ED|11D83741BA815CEB577|最新-高清电子版 - 计算机组成与设计硬件软件接口原书第五版
+99C7BF|1B0C0C4947982D63E23|最新-高清电子版 - 计算机组成原书第五版
+EC1E63|C5CDEE4AE7A3B67DB6D|最新-高清电子版 - 计算机组成及汇编语言原理
+4B2EB2|82ECC8464996A4F6928|最新-高清电子版 - 计算机组成：结构化方法
+85C3D5|E6B3554A85B39DB1167|最新-高清电子版 - 计算理论导引原书第三版
+379359|D834C94788A5588A5D0|最新-高清电子版 - 23种Java设计模式
+42C408|738D92441B887C2B4B4|最新-高清电子版 - 23种设计模式知识要点
+1FA72C|DF69C24913826005CC2|最新-高清电子版 - 24个Java代码（Java经典模式设计）
+E27636|B0C9D94AD5874179F96|最新-高清电子版 - HeadFirst设计模式
+1ECC99|2595DB4516804972187|最新-高清电子版 - JavaHeadFirst设计模式
+CB1FB5|E3D3F54F528558B3BDB|最新-高清电子版 - JavaWeb模式设计之道（jb51.net）
+1A6EEE|2E02F5411F95EE650B8|最新-高清电子版 - Java多线程编程实战指南设计模式篇
+299BC1|2A5E0D438E8131AD8A6|最新-高清电子版 - Java并发编程：设计原则与模式（第二版）
+088FC1|84A960480BA37C3BBEE|最新-高清电子版 - Java设计模式（第二版）
+5BD6CF|EA13D34122BDCA2D7E2|最新-高清电子版 - 图解Java多线程设计模式
+90F1AC|5ACC744D7992490D5E7|最新-高清电子版 - 图解设计模式
+9A5DA6|FFDA5141BA8357614D6|最新-高清电子版 - 大话设计模式
+BB041F|9BBEA74C3BB7973EA0B|最新-高清电子版 - 研磨设计模式-
+826C84|E0C8904CDCB77B8F3A7|最新-高清电子版 - 研磨设计模式
+8F6F6C|8DACB74C73A1EF16B09|最新-高清电子版 - 设计模式-可复用面向对象软件的基础
+4D69C1|B9CE364087A9D29401F|最新-高清电子版 - 设计模式之禅.秦小波
+6A5658|FBE08846F6A425CF9E4|最新-高清电子版 - 设计模式之禅（第二版）
+FC1826|FF85234D519C3117CC0|最新-高清电子版 - 软件测试原书第二版
+E9BCB3|AE63B64E6C801A2CE9E|最新-高清电子版 - 软件测试原理与实践
+9E31A7|12DE454402976BBED9D|最新-高清电子版 - 软件测试基础
+E6EE21|DEE01E4EFFA374F9228|最新-高清电子版 - 软件测试基础教程
+209461|14EA4B4893860D9AA35|最新-高清电子版 - Java性能优化权威指南
+0A51DD|155C55454FA923489C9|最新-高清电子版 - Java虚拟机并发编程
+F38259|FC2D5F48E581B0479B0|最新-高清电子版 - 代码大全2中文版
+90F745|05B35C4C7CB21F8A839|最新-高清电子版 - 代码整洁之道
+CAD07D|BA986E42D59C29A858F|最新-高清电子版 - 大神手把手教你Java性能优化-江南白衣（加强版）
+30AC45|9B69DE4A369173C94D3|最新-高清电子版 - 江南白衣优化
+9192CB|AE31F14BCA9044489F5|最新-高清电子版 - 编程之美-
+06BBF3|9E3BBC4ED79880FFE28|最新-高清电子版 - 重构-改善既有代码的设计
+47C83A|379F474E2690D9BE03B|最新-高清电子版 - 第二版：Android 100 道
+F3BEC4|F34B114E268AFDBA1A8|最新-高清电子版 - 第二版：Android 40 道
+4BE4A1|BDC6AB4FDF8D4F0C28C|最新-高清电子版 - 第二版：CSS 17 道
+6F23E1|ED2ACF4BDCAF9E879F2|最新-高清电子版 - 第二版：CSS 50  道
+F1E529|534E5F436DB9E314652|最新-高清电子版 - 第二版：Dubbo  19 道
+8A1560|8824EC4E86940627DB2|最新-高清电子版 - 第二版：Dubbo 30 道
+4F03A8|83873D4E0BBEC2E459C|最新-高清电子版 - 第二版：Dubbo 58 道
+052A75|CAD23444AE803056B04|最新-高清电子版 - 第二版：Elasticsearch 24 道
+A79F5A|329C9A4D82A8EC257E9|最新-高清电子版 - 第二版：HTML 18 道
+D2ECB9|A07B7D440CA3FA75953|最新-高清电子版 - 第二版：Java  100 道
+5079AA|CE71B44C879D2D865F8|最新-高清电子版 - 第二版：Java  17 道
+EEFA56|4E5BA34082ADA9A1DD2|最新-高清电子版 - 第二版：Java  算法 50 道
+F47B96|A5F41643B2899D5BF08|最新-高清电子版 - 第二版：Java 133 道
+6B2E96|06825E481EA3191FD84|最新-高清电子版 - 第二版：Java 47  道
+85FA2A|050A38446D98D03E34E|最新-高清电子版 - 第二版：Java 95 道
+83C307|D14B0B4BAA849854B57|最新-高清电子版 - 第二版：Java 综合 84 道
+D26100|640A264A7C916527E35|最新-高清电子版 - 第二版：Java 集合 72 道
+4518D8|157247485ABB4A3E12C|最新-高清电子版 - 第二版：JavaScript 43 道
+6C914B|479D2A455198B344A44|最新-高清电子版 - 第二版：JavaScript 45 道
+709924|A86D934920AF2336EC3|最新-高清电子版 - 第二版：JavaScript 96 道
+F377D0|26944F4AD08E98E6C11|最新-高清电子版 - 第二版：JVM 20 道
+A07D72|AE44DE46068298C84B2|最新-高清电子版 - 第二版：Kafka 17 道
+518BC1|DCBA7D4148BB716AD1C|最新-高清电子版 - 第二版：kafka 18 道
+645173|353C5340EDA688015CF|最新-高清电子版 - 第二版：Kafka 50 道
+120D55|4C7AA64B25A905CECD9|最新-高清电子版 - 第二版：Linux 45 道
+220E04|FAFD6C4016A163110EE|最新-高清电子版 - 第二版：Linux 70 道
+216847|17DF9048109F2C536EB|最新-高清电子版 - 第二版：Memcached 23 道
+80BDC5|7623694E8EA33F2397B|最新-高清电子版 - 第二版：MongoDB 24 道
+D98EE8|35E4B84AD3929229019|最新-高清电子版 - 第二版：MyBatis 27 道
+9213B9|F9B8EE4649A82ED4EDF|最新-高清电子版 - 第二版：MyBatis 40 道
+DD4CE6|C3C226416193641A022|最新-高清电子版 - 第二版：MySQL 140 道
+95B2FC|8E2B594E0D9DCB0F45A|最新-高清电子版 - 第二版：MySql 50 道
+22C93A|4102CC436E89D9E27E9|最新-高清电子版 - 第二版：MySQL索引 6 道
+3EA091|94ECC5490890B4B095A|最新-高清电子版 - 第二版：Netty 11 道
+C24E8A|C4015446B4981F80F18|最新-高清电子版 - 第二版：Nginx 18 道
+6F7840|6E793741F18ACE206F6|最新-高清电子版 - 第二版：Python  36 道
+073371|6F99F2443BADE6A2246|最新-高清电子版 - 第二版：Python 292 道
+137777|44F95B48FD9B73A0EB8|最新-高清电子版 - 第二版：RabbitMQ 12 道
+867F14|AE191941A9B5A71804B|最新-高清电子版 - 第二版：RabbitMQ 23 道
+DD4F1B|302C984883AC2A53EEC|最新-高清电子版 - 第二版：React 17 道
+A49669|010240421E930DF04EA|最新-高清电子版 - 第二版：Redis 27 道
+6E8DEA|20BE754E8F8446C8804|最新-高清电子版 - 第二版：Redis 40 道
+DF6D0A|7B73DE46B3A820FFABB|最新-高清电子版 - 第二版：Spring 55 道
+9E6EBF|4E54A44489A8FDE0BF9|最新-高清电子版 - 第二版：Spring 70 道
+C86514|BB5DB5403A949EE6C49|最新-高清电子版 - 第二版：SpringBoot 10 道
+97AC88|C1AA094540BA35BF7B3|最新-高清电子版 - 第二版：SpringBoot 22 道
+5B6BD5|25AE334AE5AD49CA568|最新-高清电子版 - 第二版：SpringCloud 20 道
+BBCD1D|CBC2E14A949C9464A7D|最新-高清电子版 - 第二版：SpringCloud 22 道
+416695|122261414596418937C|最新-高清电子版 - 第二版：SpringCloud 29 道
+BB9A14|9ED055442B966B0D92A|最新-高清电子版 - 第二版：SpringCloud 50 道
+3C7422|42B1494F8DAB74E2E35|最新-高清电子版 - 第二版：SpringCloud 70 道
+A893F3|2CB219434EA1F966975|最新-高清电子版 - 第二版：SpringCloud 8 道
+53FC1A|8A6749443BADA20382D|最新-高清电子版 - 第二版：SpringMVC 35 道
+93A898|CC2D0E445FB4EFDC4CA|最新-高清电子版 - 第二版：Tomcat 16 道
+777B2E|BA779F4EEBA185A27B0|最新-高清电子版 - 第二版：Vue 20 道
+0F1D25|21A5F14391AF8FA8EDE|最新-高清电子版 - 第二版：Vue 39 道
+1C2A4C|E1D1694818A49E3EC8C|最新-高清电子版 - 第二版：ZooKeeper 23 道
+4D754F|10ED9B45F8B31F54A5F|最新-高清电子版 - 第二版：ZooKeeper 28 道
+7434EC|50D55A468CAC70FE1C4|最新-高清电子版 - 第二版：ZooKeeper 36 道
+D84520|D471AB40958B18800A9|最新-高清电子版 - 第二版：前端汇总 100  道
+242E4A|07355F45CE95B26EC72|最新-高清电子版 - 第二版：前端综合 45  道
+4C929F|5D13644E899E9A6188B|最新-高清电子版 - 第二版：多线程 75 道
+2FF96A|AF7FC14D3F86338A3D7|最新-高清电子版 - 第二版：并发编程 140 道
+CEAF83|E01005491582CB8F086|最新-高清电子版 - 第二版：并发编程 48 道
+8293F3|97D58A4B92B258569A0|最新-高清电子版 - 第二版：精选设计模式 10 道
+758EC0|87BC004CDAAEED6D9A3|最新-高清电子版 - Java核心技术卷2 高级特性原书第10版
+3BC522|0E79684A208DAFA19D6|第三版：Android 35 道
+0FFDDA|4F9C554DE0A9AF34C08|第三版：Android 40 道
+14A003|D9984047D8AF52F0875|第三版：Android 45 道
+383C56|0C20D74DAEB39FE8910|第三版：Android 60 道
+2FC945|7E990343EEB3A292511|第三版：C# 19道
+B067FC|FF42C54847A35A906EF|第三版：Dubbo 19 道
+853F26|F676714BDDACAF1E464|第三版：Dubbo 27 道
+18994F|1092B54FC6A16EF78AE|第三版：Dubbo 30 道
+D15C89|94E0274F6399E501932|第三版：Dubbo 32 道
+BF0C2E|0EFE4147889DE608C40|第三版：Dubbo 38 道
+D6053B|948101467381E69FB18|第三版：Dubbo 64 道
+2FC282|20E2A342E8B9E7236B7|第三版：Elasticsearch 25 道
+D2614F|023A2745CBAABE67131|第三版：Elasticsearch 28 道
+188AB2|F1115D433BA5ED99A1A|第三版：Elasticsearch 34 道
+AF3DED|A9A3B3466297C226A55|第三版：Elasticsearch 50 道
+3A8EE6|40126C41FDA67E1C2FE|第三版：HTML 18 道
+9338E1|710D474422AFE1A03FB|第三版：HTML 20 道
+7967C5|0219274AFA902C55214|第三版：HTML 35道
+53ACEE|B9798B48C38373E7630|第三版：HTML 80 道
+0A09DF|41F41A4A42A5D2A984D|第三版：HTTP 20 道
+042695|6CE839427385318730B|第三版：HTTP 60 道
+E96E9F|A377B5464093CF26EA5|第三版：Java 16 道
+AEDFA3|F6FF944014BD2C13F36|第三版：Java 17道
+D10E3F|AB480142AEB836FBB13|第三版：Java 30 道
+8676F0|93E6D9498EB7E10BC58|第三版：Java 47 道
+07C616|F9807A48FF8A2134DB6|第三版：Java 50 道
+4288B6|9684D94990A36262ACE|第三版：Java 55 道
+C89625|0D119E4303BAC43D6BA|第三版：Java 60 道
+249E92|2BB3F444788A7EB0C48|第三版：Java 66 道
+E0595A|EEB19F427E9DD1EFE5D|第三版：Java 72 道
+C77E1A|08D574460A9B5E935C1|第三版：Java 80 道
+8EECF4|0CA38F4633888D09F3A|第三版：Java 84 道
+3FF977|33213342258F4DA5759|第三版：Java 95 道
+D7FE83|7A6B444F3FBD01D57B8|第三版：Java 核心知识
+EE5956|4B8AA2441BBDEFB5708|第三版：JavaScript 24道
+ED37FE|F53B5A44AE8AE0F8E45|第三版：JavaScript 43 道
+BB8970|CA5FA145029B0968333|第三版：JavaScript 45 道
+260890|8392404FB2922CB14EF|第三版：JavaScript 50道
+707619|ABD97849D785A718DF4|第三版：JavaScript 60道
+6CDA4C|5328844418BDB3C7D45|第三版：JavaScript 80 道
+AF6CDB|77265B4A61B92481965|第三版：JVM 18 道
+372D16|F9B9F541D2875319187|第三版：JVM 20 道
+589CFD|58C7E44ED08B89E2E06|第三版：JVM 32 道
+F57996|67B13A477E839E6FDC5|第三版：JVM 38 道
+C57371|FA54F0443FBF80C623D|第三版：JVM 45 道
+0B2920|62F0DF45E7B7C977313|第三版：JVM 50 道
+1DDD58|C436404CADA102200C1|第三版：JVM 77 道
+BFD3B3|CBF19B4CAE8B272D1C6|第三版：Kafka 17 道
+1EFA9D|46FD2A4768917367C87|第三版：kafka 18 道
+349855|BB751448DCBFD222988|第三版：kafka 35 道
+F06264|F71B174BB4838DF88E9|第三版：Kafka 40 道
+1510F6|E5590F46C8BBA43B9BB|第三版：Kafka 50 道
+DF31A1|26A7694C6DAC5EED531|第三版：Linux 100 道
+F2F165|C0DF9C4300AE869E31F|第三版：Linux 40 道
+86A992|FF55234FED8D3594393|第三版：Linux 41 道
+BA6D7A|4EF0A145AFAEE51DA6D|第三版：Linux 45 道
+1AB980|AC3C4D49A294FE8185B|第三版：Linux 52 道
+C946F5|6357EF4F589CCB4F770|第三版：Linux 70 道
+80F6D3|68B7334FE5B0C4448F9|第三版：Memcached 23 道
+F2AC53|03375F431E82F5485D5|第三版：MongoDB 20 道
+1F1E80|1E38FA4D518917D210A|第三版：MongoDB 24 道
+0E32CA|B42E02448C8CB2C1C58|第三版：MongoDB 45 道
+04E5D1|DDB83E43AEAB285C037|第三版：MongoDB 55 道
+A0AA98|A39D734D3B889BDBD19|第三版：MyBatis 10 道
+A49BC0|E34E0647CE9E925C130|第三版：MyBatis 14 道
+BF4C75|399AB744B28D8909B14|第三版：MyBatis 27 道
+3DA573|C295584DA29E3B939B2|第三版：MyBatis 36 道
+53CA71|40AC46418183F0A8953|第三版：MyBatis 40 道
+A8EC18|81476C467E9C7B46185|第三版：MySQL 18道
+EA754B|026D3343B7B3E433788|第三版：MySQL 30 道
+C70B4A|2FDEE840B99F035687C|第三版：MySQL 40 道
+0F0E6E|9E95F14D069A1EBEDA0|第三版：MySQL 45 道
+F3803B|C63A8949A19489C6815|第三版：MySQL 50 道
+05A5F6|4D0C464385ACAB974CE|第三版：MySQL 62 道
+FA85DF|23AD3143FF8D8DCB609|第三版：MySQL 70 道
+804F83|A27CC6465AA91553C06|第三版：MySQL 75 道
+CFB149|50FEF348C1B56AD8FB1|第三版：MySQL 80 道
+C78266|82FCCD492084B847ABD|第三版：Netty 17 道
+16BC1C|DCBE68459FA97564D65|第三版：Netty 20 道
+578233|BA37C34A44AD232CF65|第三版：Netty 25 道
+D54ABE|13054640C0A6D1563BE|第三版：Netty 35 道
+2D3672|E39D0E47BA8DC6013A3|第三版：Nginx 18 道
+AF0346|665CE441809EBBB803E|第三版：Nginx 19 道
+31CCBB|C5037E42959ED2C4268|第三版：Nginx 20 道
+519248|65AE2044A487A7E32E3|第三版：Nginx 34 道
+82041E|2DB2934CA993CC9F486|第三版：Oracle 20 道
+5513FA|83424344029F220E1EE|第三版：Oracle 40 道
+AD608D|707A9E447FB672C75E5|第三版：Oracle 45 道
+8F5B00|0BEC754781AE2F2B76C|第三版：Oracle 50 道
+1635B1|7935C94F129D0A30D30|第三版：Python 36 道
+46E77B|14E2ED44BC9F4D5C80D|第三版：Python 48 道
+CAF26E|1679864D21A6DB88ACD|第三版：Python 50 道
+08B122|F6E4394202B9FD619C8|第三版：Python 55 道
+47F5E7|8ADBDE405A979443FCF|第三版：Python 70 道
+21CCF2|B9C74D4317B92D4BFF4|第三版：Python 80 道
+7C84D7|5392134C1D95A812CC5|第三版：RabbitMQ 23 道
+1BEAD9|3A888C4D6A910C4FA5B|第三版：RabbitMQ 30 道
+DC499D|1AF3994FB6A3A966DFA|第三版：RabbitMQ 45 道
+6224E9|C40D8E4CDEA90C9ADB9|第三版：RabbitMQ 50 道
+FAC28B|4427304DD28D1EED96D|第三版：React 17 道
+C3BF3F|F355764419BEEEDD781|第三版：React 35 道
+E41290|67BB9A48CA9D569EA0F|第三版：React 45 道
+A9B786|A591404991B0FA7C971|第三版：React 60 道
+0ED328|CFA4E149DC8F132F9A8|第三版：Redis 27道
+73EC6A|5538E84B938E82F3349|第三版：Redis 35 道
+54CA62|F516A144CF88CA562B6|第三版：Redis 40 道
+A66AC9|597ACD4BA3BBE02E2C2|第三版：Redis 45 道
+6DA3AB|1EA8EF43C1970461B5A|第三版：Redis 50 道
+882F56|B124134908BDE15E7D0|第三版：Redis 60 道
+BBD0C4|B6786D4127BF7B932C6|第三版：Spring 30 道
+1299C5|3FB0704EF7A8EB57B94|第三版：Spring 55 道
+7DD165|77CA6A428A82F4197D6|第三版：Spring 65 道
+8A00B8|23551A4AD199DA9D71F|第三版：Spring 70 道
+A34DD3|80730E4D858BF6D2F74|第三版：SpringBoot 20 道
+DC95A2|A66B8A4CC6B4BD960C4|第三版：SpringBoot 23 道
+176FA8|5CB35246498E92D4FCF|第三版：SpringBoot 25 道
+B77FDA|16714449C7B5ECD1C55|第三版：SpringBoot 31 道
+B7E836|F9C9E54CBAAD93EE707|第三版：SpringBoot 33 道
+C3C7B8|DA3F51481D810EF4B2A|第三版：SpringBoot 35 道
+8CE140|D8CB244065871F159BF|第三版：SpringBoot 44 道
+AC1507|2CAD774ECEB421BE6F8|第三版：SpringBoot 50 道
+8FBA49|3F8ED34D12BD8855CC8|第三版：SpringBoot 55 道
+AB6AAC|F0F4D049B6B124EC735|第三版：SpringCloud 20 道
+E7D4E7|533A8040C898862EB06|第三版：SpringCloud 22 道
+01DE93|3CCB2D4732ACB59D360|第三版：SpringCloud 25 道
+4C82D3|E6DFDC4C95881C958F2|第三版：SpringCloud 29 道
+F8DF38|EBAEBE4026A3931DDE7|第三版：SpringCloud 50 道
+531FB6|52AFE64520BCA3C8D88|第三版：SpringCloud 70 道
+573671|FC30F34D77A604C5A03|第三版：SpringMVC 35 道
+13F240|2A993940778D81C515B|第三版：Vue 20 道
+6C1074|F5B7B7495B84F5E8282|第三版：Vue 23 道
+4EB9FA|521A714F6F9593E2571|第三版：Vue 35 道
+C46ABA|641B4D4670B4F28B56C|第三版：Vue 37 道
+E58C41|5392624E01BEDE04064|第三版：Vue 39 道
+F8A0E8|CD0A3C48A98686DE688|第三版：Vue 60 道
+24F49B|DA50924321A81435BAA|第三版：ZooKeeper 23 道
+836595|84CA3447828983200CB|第三版：ZooKeeper 28 道
+893445|18C9114528BF512ACED|第三版：ZooKeeper 38 道
+C98893|62DF604B768A0B382AA|第三版：ZooKeeper 40 道
+DA8948|7B744D4C919837265AB|第三版：前端 17 道
+9FDC92|34600A45708360DCE78|第三版：前端 40 道
+756E5C|A65E664AEEB6387193D|第三版：前端 45 道
+9CBCED|09549B4808965AA0ABF|第三版：前端 50 道
+791F93|BF8E8147568D97B08A7|第三版：前端 60 道
+AD1028|35C2EC4ECC8860A13B0|第三版：大数据 40 道
+6D712E|06EC85488CA070AA0F2|第三版：大数据 50 道
+03B915|5F0C8546299A3048820|第三版：大数据 76 道
+2C34EF|25807B4622AE3533C28|第三版：大数据 80 道
+8B3F25|4BCEE341A886534F848|第三版：并发编程 48 道
+8669C8|CAF6D949D4894552BA0|第三版：并发编程 50 道
+641964|C6E684461AA7E84F8F8|第三版：并发编程 70 道
+957B52|5E8A964ACFACD81ABA8|第三版：并发编程 75 道
+A1216F|59A67D4A5BB44A13D7A|第三版：并发编程 80 道
+29986F|31D2784A33978DB8AB5|第三版：新Leetcode 题解指南-合计1382页
+`;
+
+        const passwordData = textData
+            .trim()
+            .split('\n') // 按行分割
+            .map(line => {
+                const [code, password, description] = line.split('|');
+                return { 
+                    code: code.trim(), 
+                    password: password.trim(), 
+                    description: description.trim().replace(/【.*?】/g, '') // 去掉不必要的部分
+                };
+            });
+
+        let currentPage = 1; // 当前页数
+        const itemsPerPage = 5; // 每页显示多少条
+        let filteredResults = []; // 搜索结果存储
+        let searchType = 'code'; // 默认按代码搜索
+
+        // 设置搜索类型
+        function setSearchType(type) {
+            searchType = type;
+            document.getElementById('codeSearchBtn').classList.remove('active');
+            document.getElementById('bookSearchBtn').classList.remove('active');
+            if (type === 'code') {
+                document.getElementById('codeSearchBtn').classList.add('active');
+            } else {
+                document.getElementById('bookSearchBtn').classList.add('active');
+            }
+        }
+
+        // 搜索功能
+        function searchPassword() {
+            const searchInput = document.getElementById('searchInput').value.trim(); // 获取搜索框输入
+            const resultContainer = document.getElementById('resultContainer');
+            
+            // 如果没有输入内容，则提示用户输入
+            if (!searchInput) {
+                resultContainer.innerHTML = '<div class="no-result">请输入搜索内容</div>';
+                return;
+            }
+
+            // 处理输入的关键词，去掉多余的空格或符号
+            const keywords = searchInput
+                .replace(/[,，\s]+/g, ' ') // 用空格替换逗号或多个空格
+                .split(' ')
+                .map(k => k.trim().toLowerCase()) // 转小写并去除空格
+                .filter(k => k); // 过滤掉空的关键词
+
+            // 根据搜索类型进行过滤，按代码或书名进行匹配
+            filteredResults = passwordData.filter(item => {
+                return keywords.some(keyword => {
+                    if (searchType === 'code') {
+                        return item.code.toLowerCase() === keyword;
+                    } else {
+                        return item.description.toLowerCase().includes(keyword);
+                    }
+                });
+            }).sort((a, b) => a.description.localeCompare(b.description)); // 按书名排序
+
+            displayResults(filteredResults, keywords);
+        }
+
+        // 显示搜索结果
+        function displayResults(results, keywords) {
+            const resultContainer = document.getElementById('resultContainer');
+            
+            // 如果没有结果，则显示未找到信息
+            if (results.length === 0) {
+                resultContainer.innerHTML = '<div class="no-result">未找到匹配结果</div>';
+                return;
+            }
+
+            const totalItems = results.length; // 获取结果总条数
+            const totalPages = Math.ceil(totalItems / itemsPerPage); // 计算总页数
+            const startIndex = (currentPage - 1) * itemsPerPage; // 当前页的起始索引
+            const endIndex = startIndex + itemsPerPage; // 当前页的结束索引
+            const paginatedResults = results.slice(startIndex, endIndex); // 获取当前页的数据
+
+            let html = `<div class="search-info" style="margin-bottom:15px;color:#666;">
+                找到 ${totalItems} 个结果（关键词：${keywords.join(', ')})</div>`;
+
+            // 循环显示每个匹配的结果
+            paginatedResults.forEach(item => {
+                let highlightedDescription = item.description;
+                // 高亮显示关键词
+                keywords.forEach(keyword => {
+                    const regex = new RegExp(`(${keyword})`, 'gi');
+                    highlightedDescription = highlightedDescription.replace(regex, '<span class="highlight">$1</span>');
+                });
+
+                html += `
+                    <div class="result-item">
+                        <div class="details">
+                            <p>代码: ${item.code} 密码: ${item.password}</p>
+                            <div class="actions">
+                                <button onclick="copyToClipboard('${item.code}')">复制</button>
+                            </div>
+                        </div>
+                        <div class="book-title">
+                            <p>书名: ${highlightedDescription}</p>
+                        </div>
+                    </div>`;
+            });
+
+            resultContainer.innerHTML = html;
+
+            // 分页：显示当前页码以及上下5页的页码
+            const pageLinks = [];
+            const maxPagesToShow = 5;
+            let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2)); // 起始页
+            let endPage = Math.min(totalPages, startPage + maxPagesToShow - 1); // 结束页
+
+            // 调整起始页码，确保展示的页码数量不超过最大页数
+            if (endPage - startPage < maxPagesToShow - 1) {
+                startPage = Math.max(1, endPage - maxPagesToShow + 1);
+            }
+
+            // 生成页码链接
+            for (let i = startPage; i <= endPage; i++) {
+                pageLinks.push(`
+                    <span class="page-link ${i === currentPage ? 'active' : ''}" onclick="changePageTo(${i})">${i}</span>
+                `);
+            }
+
+            // 显示分页按钮
+            const paginationHtml = `
+                <div class="pagination">
+                    <span class="page-link ${currentPage === 1 ? 'disabled' : ''}" onclick="changePageTo(1)">首页</span>
+                    <span class="page-link ${currentPage === 1 ? 'disabled' : ''}" onclick="changePage(-1)">上一页</span>
+                    ${pageLinks.join('')}
+                    <span class="page-link ${currentPage === totalPages ? 'disabled' : ''}" onclick="changePage(1)">下一页</span>
+                    ${currentPage < totalPages ? 
+                        `<span class="page-link" onclick="changePageTo(${totalPages})">末尾页</span>` 
+                        : ''}
+                </div>
+            `;
+            resultContainer.innerHTML += paginationHtml;
+        }
+
+        // 切换到指定页码
+        function changePageTo(page) {
+            currentPage = page;
+            searchPassword();
+        }
+
+        // 改变页面（上一页或下一页）
+        function changePage(direction) {
+            const totalPages = Math.ceil(filteredResults.length / itemsPerPage);
+            currentPage = Math.max(1, Math.min(totalPages, currentPage + direction));
+            searchPassword(); // 重新执行搜索
+        }
+
+        // 复制单个密码到剪贴板
+        function copyToClipboard(code) {
+            const text = `代码: ${passwordData.find(item => item.code === code).code} | 密码: ${passwordData.find(item => item.code === code).password}`;
+            navigator.clipboard.writeText(text).then(() => {
+                alert('密码已复制到剪贴板');
+            }).catch(err => {
+                console.error('复制失败:', err);
+            });
+        }
+
+        // 复制当前页面的所有密码
+        function copyCurrentPagePasswords() {
+        // 获取当前页的密码内容
+        const currentPagePasswords = filteredResults
+            .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
+            .map(item => `代码: ${item.code} | 密码: ${item.password} | 书名: ${item.description}`)
+            .join('\n');
+
+        // 判断是否有密码可以复制
+        if (currentPagePasswords.trim() === '') {
+            alert('当前页没有密码可复制');
+            return;
+        }
+
+        // 将复制内容写入剪贴板
+        navigator.clipboard.writeText(currentPagePasswords).then(() => {
+            // 获取当前页实际的密码条数
+            const passwordCount = currentPagePasswords.split('\n').length;
+            alert(`已复制当前页的 ${passwordCount} 个密码`);
+        }).catch(err => {
+            console.error('复制失败:', err);
+        });
+}
+
+        // 复制所有密码功能：复制当前搜索结果的所有密码，代码、密码和书名（书名放最后）
+        function copyAllPasswords() {
+            const allPasswordsWithTitles = filteredResults
+                .map(item => `代码: ${item.code} | 密码: ${item.password} | 书名: ${item.description}`)
+                .join('\n'); // 以换行分隔每条数据
+            
+            // 将复制内容写入剪贴板
+            navigator.clipboard.writeText(allPasswordsWithTitles).then(() => {
+                alert(`已复制 ${filteredResults.length} 个密码及书名`);
+            }).catch(err => {
+                console.error('复制失败:', err);
+            });
+        }
+
+        // 批量导出搜索结果：导出当前搜索结果，格式为：代码 | 密码 | 书名
+        function exportSearchResults() {
+            const searchResults = filteredResults
+                .map(item => `代码: ${item.code} | 密码: ${item.password} | 书名: ${item.description}`)
+                .join('\n'); // 以换行分隔每条数据
+            
+            // 如果没有结果，则提示用户
+            if (searchResults.length === 0) {
+                alert('没有结果可导出！');
+                return;
+            }
+
+            // 创建一个Blob对象，下载为文本文件
+            const blob = new Blob([searchResults], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = '搜索结果列表.txt'; // 下载文件的名称
+            link.click();
+        }
+    </script>
+
+
+    <script>
+    // 获取模态框和按钮
+    var modal = document.getElementById("helpModal");
+    var btn = document.getElementById("helpBtn");
+    var span = document.getElementsByClassName("close")[0];
+
+    // 当用户点击按钮时，打开模态框
+    btn.onclick = function() {
+        modal.style.display = "block";
+    }
+
+    // 当用户点击关闭按钮时，关闭模态框
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    // 当用户点击模态框外部区域时，关闭模态框
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
+
+
+</body>
+</html>
